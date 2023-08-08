@@ -1,6 +1,4 @@
 "use client";
-
-import { useRouter } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
 import { LogOutIcon } from "lucide-react";
 import {
@@ -17,8 +15,9 @@ import Link from "next/link";
 import ThemeToggle from "./theme-toggle";
 
 const UserDropdown = () => {
-  const router = useRouter();
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
+  console.log("STATUS:", status);
+  console.log("SESSION:", session);
 
   return (
     <DropdownMenu>
