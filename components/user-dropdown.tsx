@@ -1,6 +1,7 @@
 "use client";
-import { useSession, signOut } from "next-auth/react";
-import { LogOutIcon } from "lucide-react";
+import { signOut } from "next-auth/react";
+import { User } from "next-auth";
+import { LogOutIcon, UserIcon } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,27 +15,38 @@ import { formatedName } from "@/lib/utils";
 import Link from "next/link";
 import ThemeToggle from "./theme-toggle";
 
-const UserDropdown = () => {
-  const { data: session, status } = useSession();
-  console.log("STATUS:", status);
-  console.log("SESSION:", session);
+interface IProps {
+  user: User;
+}
 
+const UserDropdown: React.FC<IProps> = ({ user }) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="!outline-none">
         <Avatar>
-          <AvatarImage src={session?.user?.image as string} />
-          <AvatarFallback>
-            {formatedName(session?.user?.name as string)}
-          </AvatarFallback>
+          <AvatarImage src={user?.image as string} />
+          <AvatarFallback>{formatedName(user?.name as string)}</AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
-        <DropdownMenuItem>
-          <Link href={"/profile"}>{session?.user?.name}</Link>
-        </DropdownMenuItem>
+        <div className="p-2">
+          <div className="flex flex-col gap-y-1 leading-none">
+            <p className="font-medium">{user.name || "Anonymous"}</p>
+            {user.email && (
+              <p className="truncate text-sm text-muted-foreground">
+                {user.email}
+              </p>
+            )}
+          </div>
+        </div>
         <DropdownMenuSeparator />
-        <DropdownMenuItem asChild>
+        <DropdownMenuItem>
+          <Link className="flex items-center" href={`/${user.id}`}>
+            <UserIcon className="h-4 w-4 mr-2" />
+            Your Profile
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem>
           <ThemeToggle />
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => signOut()}>

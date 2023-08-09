@@ -21,10 +21,10 @@ const ThemeToggle = () => {
     }
   };
   return (
-    <Button onClick={handleClick} className="w-full" variant="ghost" size="sm">
+    <div onClick={handleClick} className="flex items-center">
       {icon}
       {text}
-    </Button>
+    </div>
   );
 };
 

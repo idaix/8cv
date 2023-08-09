@@ -1,13 +1,10 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
-import Link from "next/link";
 import { useAuthModal } from "@/hooks/use-auth-modal";
 
 const Navbar = () => {
-  const router = useRouter();
   const { data: session } = useSession();
   const authModal = useAuthModal();
   if (session) {

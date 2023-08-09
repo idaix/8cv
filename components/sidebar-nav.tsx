@@ -71,7 +71,7 @@ const SidebarNav = () => {
       ))}
       {session && (
         <div className="sm:absolute bottom-3">
-          <UserDropdown />
+          <UserDropdown user={session.user} />
         </div>
       )}
     </ul>
