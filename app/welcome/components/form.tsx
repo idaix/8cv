@@ -56,7 +56,9 @@ const WelcomeForm = () => {
     onChnage(e.target.value);
     try {
       setLoading(true);
-      const res = await axios.get(`api/profile/${e.target.value}`);
+      const res = await axios.get(
+        `api/profile/check-username/${e.target.value}`
+      );
 
       form.setError("username", {
         type: "manual",
