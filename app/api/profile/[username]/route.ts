@@ -1,12 +1,20 @@
 import prismadb from "@/lib/prismadb";
 import { NextResponse } from "next/server";
 
-export async function GET(request: Request, params: { username: string }) {
+export async function GET(
+  request: Request,
+  {
+    params,
+  }: {
+    params: {
+      username: string;
+    };
+  }
+) {
   try {
     if (!params.username) {
       return new NextResponse("Username required", { status: 400 });
     }
-    console.log("chek username");
 
     const username = await prismadb.profile.findFirst({
       where: {
