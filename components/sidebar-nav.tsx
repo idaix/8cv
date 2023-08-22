@@ -8,6 +8,7 @@ const SidebarNav = () => {
   const router = useRouter();
   const pathname = usePathname();
   const { data: session } = useSession();
+  console.log("user:", session?.user);
 
   type NavLinks = {
     label: string;

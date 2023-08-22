@@ -19,7 +19,6 @@ import axios, { AxiosError } from "axios";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
-
 const formSchema = z.object({
   username: z
     .string()
@@ -35,7 +34,7 @@ const formSchema = z.object({
 type FormSchema = z.infer<typeof formSchema>;
 
 const WelcomeForm = () => {
-  const { data: session } = useSession();
+  const { data: session, update } = useSession();
   const router = useRouter();
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
@@ -72,13 +71,27 @@ const WelcomeForm = () => {
   };
 
   const onSubmit = async (values: FormSchema) => {
-    console.log("Username: ", values.username);
     try {
       setLoading(true);
       const res = await axios.post("api/profile", values);
-      console.log("res:", res);
+      // update the session to add the username so i can use it later
+      console.log(res);
 
-      router.push(`/${res.data.username}`);
+      if (res.data.username) {
+        await update({
+          username: res.data.username,
+        });
+        toast({
+          title: "Profile created, Thank you",
+        });
+        router.push(`/${res.data.username}`);
+      } else {
+        toast({
+          variant: "destructive",
+          title: "Uh oh! Something went wrong.",
+          description: "Please contact our team, Thank you.",
+        });
+      }
     } catch (error) {
       const err = error as AxiosError;
       console.log("[ERROR_ON_CREATING_PROFILE]", error);

@@ -41,7 +41,7 @@ const UserDropdown: React.FC<IProps> = ({ user }) => {
         </div>
         <DropdownMenuSeparator />
         <DropdownMenuItem>
-          <Link className="flex items-center" href={`/${user.id}`}>
+          <Link className="flex items-center" href={`/${user.username}`}>
             <UserIcon className="h-4 w-4 mr-2" />
             Your Profile
           </Link>

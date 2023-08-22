@@ -21,7 +21,7 @@ export const authOptions: AuthOptions = {
           ...token,
           id: user.id,
           username: user.id,
-        };
+        }
       }
       return token;
     },
@@ -31,8 +31,8 @@ export const authOptions: AuthOptions = {
         user: {
           ...session.user,
           id: token.sub,
-          username: token.username,
-        },
+          username: token.sub,
+        }
       };
       return session;
     },
