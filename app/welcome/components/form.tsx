@@ -29,6 +29,7 @@ const formSchema = z.object({
     }),
   displayName: z.string().min(1).max(50),
   userId: z.string().min(1),
+  imageURL: z.string().min(1),
 });
 
 type FormSchema = z.infer<typeof formSchema>;
@@ -45,6 +46,7 @@ const WelcomeForm = () => {
       username: "",
       displayName: "",
       userId: session?.user.id,
+      imageURL: session?.user.image as string,
     },
   });
 
@@ -75,11 +77,12 @@ const WelcomeForm = () => {
       setLoading(true);
       const res = await axios.post("api/profile", values);
       // update the session to add the username so i can use it later
-      console.log(res);
+      // console.log(res);
 
       if (res.data.username) {
         await update({
           username: res.data.username,
+          name: res.data.name,
         });
         toast({
           title: "Profile created, Thank you",

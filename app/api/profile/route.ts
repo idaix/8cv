@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { username, displayName, userId } = body;
+    const { username, displayName, userId, imageURL } = body;
     if (!username || !displayName || !userId) {
       return new NextResponse(
         "Username, display name and user id are required!",
@@ -40,6 +40,7 @@ export async function POST(request: Request) {
         userId,
         username,
         name: displayName,
+        image: imageURL,
       },
     });
     return NextResponse.json(profile);

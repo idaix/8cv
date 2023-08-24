@@ -18,14 +18,20 @@ export const authOptions: AuthOptions = {
 
       if (user) {
         // fetch real user from the database based on user.id
-        const userWithUsername = await prismadb.profile.findUnique({
+        const profile = await prismadb.profile.findUnique({
           where: { userId: user.id },
-          select: { username: true },
+          select: {
+            username: true,
+            name: true,
+            image: true,
+          },
         });
         return {
           ...token,
           id: user.id,
-          username: userWithUsername?.username,
+          username: profile?.username,
+          name: profile?.name,
+          image: profile?.image,
         };
       }
       return token;
