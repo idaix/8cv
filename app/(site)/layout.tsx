@@ -8,7 +8,16 @@ export default function SiteLayout({
   return (
     <>
       <Sidebar />
-      <div className="mb-50 sm:mb-0 sm:ml-16 h-full">{children}</div>
+      <div
+        className="
+          pb-20
+          sm:pb-0
+          sm:ml-16
+          min-h-full
+        "
+      >
+        {children}
+      </div>
     </>
   );
 }

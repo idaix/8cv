@@ -18,28 +18,35 @@ const ProfileGeneral: React.FC<ProfileGeneralProps> = ({ profile }) => {
           <div className="relative w-24 h-24 bg-muted rounded-full overflow-hidden">
             <Image src={profile.image as string} alt={profile.name} fill />
           </div>
-          <div className="">
+          <div className="space-y-1">
             <h5 className="">{profile.name}</h5>
-            <p className="text-muted-foreground text-xs">
-              {profile.headline && profile.headline + " in"} {profile.location}
+            <p className="text-muted-foreground text-sm">
+              {profile.headline && profile.headline}
+              {profile.headline && profile.location && " in "}
+              {profile.location}
             </p>
-            {profile.website && (
-              <Link
-                href={profile.website as string}
-                target="_blank"
-                className="text-xs"
-              >
-                <Badge variant="secondary">{profile.website}</Badge>
-              </Link>
-            )}
+            <div>
+              {profile.website && (
+                <Link
+                  href={profile.website as string}
+                  target="_blank"
+                  className="text-xs"
+                >
+                  <Badge variant="secondary">{profile.website}</Badge>
+                </Link>
+              )}
+            </div>
           </div>
         </div>
         <MoreHorizontal className="text-muted-foreground w-4 h-4" />
       </div>
       {profile.about && (
-        <Section title="About">
-          <p className="text-muted-foreground">{profile.about}</p>
-        </Section>
+        <section>
+          <h3 className="mb-2 sm:mb-3">About</h3>
+          <div className="pl-3 sm:pl-0">
+            <p className="text-muted-foreground">{profile.about}</p>
+          </div>
+        </section>
       )}
     </div>
   );

@@ -7,9 +7,9 @@ interface SectionProps {
 
 const Section: React.FC<SectionProps> = ({ title, children }) => {
   return (
-    <section className="">
-      <h3 className="mb-1">{title}</h3>
-      {children}
+    <section>
+      <h3 className="mb-2 sm:mb-5">{title}</h3>
+      <div className="pl-3 sm:pl-0">{children}</div>
     </section>
   );
 };
