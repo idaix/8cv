@@ -9,8 +9,10 @@ const Sidebar = () => {
         fixed
         bottom-0
         w-full
-        h-50
+        h-14
         border-t
+        bg-background
+
         sm:flex-col
         sm:w-16
         sm:top-0
