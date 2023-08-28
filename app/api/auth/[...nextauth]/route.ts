@@ -45,7 +45,6 @@ export const authOptions: AuthOptions = {
           username: token.username,
         },
       };
-      return session;
     },
   },
   adapter: PrismaAdapter(prismadb),
@@ -54,9 +53,9 @@ export const authOptions: AuthOptions = {
     strategy: "jwt",
   },
   pages: {
-    signIn: "/",
+    signIn: "/?event=openModal",
     signOut: "/",
-    error: "/",
+    error: "/?event=openModal&error=true",
     newUser: "/welcome",
   },
   secret: process.env.NEXTAUTH_SECRET,

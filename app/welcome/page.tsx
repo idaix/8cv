@@ -4,8 +4,9 @@ import { Button } from "@/components/ui/button";
 import { ChevronRight } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import WelcomeForm from "./components/form";
+import axios from "axios";
 
 enum STEPS {
   WELCOME = 0,
@@ -14,20 +15,28 @@ enum STEPS {
 
 const WelcomePage = () => {
   const router = useRouter();
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const [steps, setSteps] = useState(STEPS.WELCOME);
+
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      router.push("/?event=openModal");
+    } else if (status === "authenticated") {
+      // check if profile already created with authenticated user by his id
+      const checkProfile = async () => {
+        const res = await axios.get("api/profile/check-profile-with-userid");
+        if (res.data.username) {
+          router.push(`/${res.data.username}`);
+        }
+      };
+
+      checkProfile();
+    }
+  }, [status]);
 
   const nextStep = () => {
     setSteps((value) => value + 1);
   };
-  // const handleClick = () => {
-  //   console.log("click");
-  //   if (steps == STEPS.FORM) {
-  //     router.push(`/${session?.user.id}`);
-  //   } else {
-  //     nextStep();
-  //   }
-  // };
 
   let bodyContent = (
     <>
