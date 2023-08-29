@@ -8,7 +8,6 @@ const SidebarNav = () => {
   const router = useRouter();
   const pathname = usePathname();
   const { data: session } = useSession();
-  console.log("user:", session?.user);
 
   type NavLinks = {
     label: string;
@@ -21,8 +20,8 @@ const SidebarNav = () => {
   const navLinks: NavLinks[] = [
     {
       label: "Explore",
-      path: "/explore",
-      active: pathname === "/explore",
+      path: "/",
+      active: pathname === "/",
       icon: <FlameIcon className="h-6 w-6" />,
     },
     {
@@ -44,16 +43,15 @@ const SidebarNav = () => {
       className="
           relative
           flex
-          w-full 
+          w-full
+          h-full 
           items-center
           gap-x-3 
           gap-y-6 
-          
           px-4
-          py-3
           bg-red
           justify-around
-          sm:h-full
+          sm:py-5
           sm:justify-center 
           sm:flex-col
 
