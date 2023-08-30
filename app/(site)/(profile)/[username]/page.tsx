@@ -5,6 +5,30 @@ import Section from "./components/section";
 import Projects from "./components/projects";
 import Contact from "./components/contact";
 import { links, projects } from "@/localdata";
+import { Metadata } from "next";
+import { notFound } from "next/navigation";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { username: string };
+}): Promise<Metadata> {
+  const profile = await prismadb.profile.findUnique({
+    where: {
+      username: params.username,
+    },
+    include: {
+      user: true,
+      projects: true,
+      links: true,
+    },
+  });
+
+  return {
+    title: `${profile?.name} ${"| " + profile?.headline}`,
+    description: profile?.about,
+  };
+}
 
 const MyProfile = async ({ params }: { params: { username: string } }) => {
   // const response = await axios.get(`api/profile/${params.username}`);
@@ -19,7 +43,10 @@ const MyProfile = async ({ params }: { params: { username: string } }) => {
       links: true,
     },
   });
-  console.log(profile);
+
+  if (!profile) {
+    notFound();
+  }
 
   return (
     <main className="h-full">

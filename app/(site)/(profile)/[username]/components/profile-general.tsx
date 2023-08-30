@@ -1,9 +1,8 @@
 import { Badge } from "@/components/ui/badge";
 import { Profile } from "@prisma/client";
-import { MoreHorizontal } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import Section from "./section";
+import More from "./more";
 
 interface ProfileGeneralProps {
   profile: Profile | null;
@@ -38,7 +37,7 @@ const ProfileGeneral: React.FC<ProfileGeneralProps> = ({ profile }) => {
             </div>
           </div>
         </div>
-        <MoreHorizontal className="text-muted-foreground w-4 h-4" />
+        <More />
       </div>
       {profile.about && (
         <section>

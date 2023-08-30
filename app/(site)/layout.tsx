@@ -1,3 +1,4 @@
+import ProfileModal from "@/components/modals/edit-profile-modal";
 import Sidebar from "@/components/sidebar";
 
 export default function SiteLayout({
@@ -8,6 +9,7 @@ export default function SiteLayout({
   return (
     <>
       <Sidebar />
+      <ProfileModal />
       <div
         className="
           pb-20
