@@ -23,16 +23,20 @@ export async function generateMetadata({
       links: true,
     },
   });
-
+  if (!profile) {
+    return {
+      title: "404 | No profile asociated with that username!",
+      description:
+        "404 error, Page not found! No profile asociated with that username!",
+    };
+  }
   return {
-    title: `${profile?.name} ${"| " + profile?.headline}`,
+    title: `${profile?.name} ${profile?.headline && "| " + profile?.headline}`,
     description: profile?.about,
   };
 }
 
 const MyProfile = async ({ params }: { params: { username: string } }) => {
-  // const response = await axios.get(`api/profile/${params.username}`);
-  // console.log(response);
   const profile = await prismadb.profile.findUnique({
     where: {
       username: params.username,

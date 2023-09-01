@@ -2,48 +2,60 @@
 
 import PageModal from "@/components/ui/page-modal";
 import { useProfileModal } from "@/hooks/use-profile-modal";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+// import tabs content
+import General from "./partials/profile-general";
+import Projects from "./partials/profile-projects";
+import Contact from "./partials/profile-contact";
+
+type Tab = {
+  id: string;
+  label: string;
+  content: React.ReactNode;
+};
+const tabs: Tab[] = [
+  {
+    id: "general",
+    label: "General",
+    content: <General />,
+  },
+  {
+    id: "projects",
+    label: "Projects",
+    content: <Projects />,
+  },
+  {
+    id: "contact",
+    label: "Contact",
+    content: <Contact />,
+  },
+];
 
 const ProfileModal = () => {
   const profileModal = useProfileModal();
   return (
     <PageModal isOpen={profileModal.isOpen} onClose={profileModal.onClose}>
-      <div className="overflow-y-auto max-h-[80vh]">
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi
-          eligendi repellat ducimus perspiciatis adipisci odio id suscipit cum
-          quod ipsam consequatur, modi illo accusantium inventore molestiae quo
-          libero mollitia. Quisquam perspiciatis nostrum dolores libero dolorem
-          error atque reiciendis debitis! Molestiae laudantium architecto quae
-          similique, voluptatibus, dolor rerum ea est aliquid a quia quos
-          aperiam expedita dignissimos vitae voluptatem molestias nesciunt.
-          Dolores pariatur reiciendis facere eos assumenda, excepturi porro,
-          ipsam rem quod quae aliquam reprehenderit nobis? Sit, quos. Minima
-          perspiciatis eius sed architecto consequatur quas voluptate quod
-          delectus perferendis odit dolorem dignissimos, corporis, officiis quo.
-          Blanditiis nobis omnis provident cupiditate exercitationem. Lorem
-          ipsum dolor, sit amet consectetur adipisicing elit. Dolores
-          necessitatibus ab vel ex perferendis cum, eum porro dolorem
-          voluptatibus iste adipisci quae rerum quidem praesentium! Quia
-          consequatur itaque dolor officiis?
-        </p>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi
-          eligendi repellat ducimus perspiciatis adipisci odio id suscipit cum
-          quod ipsam consequatur, modi illo accusantium inventore molestiae quo
-          libero mollitia. Quisquam perspiciatis nostrum dolores libero dolorem
-          error atque reiciendis debitis! Molestiae laudantium architecto quae
-          similique, voluptatibus, dolor rerum ea est aliquid a quia quos
-          aperiam expedita dignissimos vitae voluptatem molestias nesciunt.
-          Dolores pariatur reiciendis facere eos assumenda, excepturi porro,
-          ipsam rem quod quae aliquam reprehenderit nobis? Sit, quos. Minima
-          perspiciatis eius sed architecto consequatur quas voluptate quod
-          delectus perferendis odit dolorem dignissimos, corporis, officiis quo.
-          Blanditiis nobis omnis provident cupiditate exercitationem. Lorem
-          ipsum dolor, sit amet consectetur adipisicing elit. Dolores
-          necessitatibus ab vel ex perferendis cum, eum porro dolorem
-          voluptatibus iste adipisci quae rerum quidem praesentium! Quia
-          consequatur itaque dolor officiis?
-        </p>
+      <div className="h-[80vh]">
+        <Tabs defaultValue="general" className="h-full grid grid-cols-4">
+          <TabsList className="col-span-1 h-full flex-col justify-start bg-transparent pl-0 pr-5 border-r">
+            {tabs.map((tab) => (
+              <TabsTrigger
+                key={tab.id}
+                className="justify-start w-full data-[state=active]:bg-muted"
+                value={tab.id}
+              >
+                {tab.label}
+              </TabsTrigger>
+            ))}
+          </TabsList>
+          <div className="col-span-3 pl-5">
+            {tabs.map((tab) => (
+              <TabsContent className="h-full" key={tab.id} value={tab.id}>
+                {tab.content}
+              </TabsContent>
+            ))}
+          </div>
+        </Tabs>
       </div>
     </PageModal>
   );

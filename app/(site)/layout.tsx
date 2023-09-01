@@ -12,10 +12,8 @@ export default function SiteLayout({
       <ProfileModal />
       <div
         className="
-          pb-20
-          sm:pb-0
           sm:ml-16
-          min-h-full
+          min-h-screen
         "
       >
         {children}
