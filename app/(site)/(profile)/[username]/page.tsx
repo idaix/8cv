@@ -7,6 +7,8 @@ import Contact from "./components/contact";
 import { links, projects } from "@/localdata";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
+import ProfileModal from "@/components/modals/edit-profile-modal";
+import { Profile } from "@prisma/client";
 
 export async function generateMetadata({
   params,
@@ -54,6 +56,11 @@ const MyProfile = async ({ params }: { params: { username: string } }) => {
 
   return (
     <main className="h-full">
+      <ProfileModal
+        general={profile}
+        projects={profile.projects}
+        links={profile.links}
+      />
       <div
         className="
           px-4 py-5

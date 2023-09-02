@@ -7,32 +7,41 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import General from "./partials/profile-general";
 import Projects from "./partials/profile-projects";
 import Contact from "./partials/profile-contact";
+import { Contact as ContactType, Profile, Project } from "@prisma/client";
+import React from "react";
 
 type Tab = {
   id: string;
   label: string;
-  content: React.ReactNode;
+  content: React.ReactElement;
 };
-const tabs: Tab[] = [
-  {
-    id: "general",
-    label: "General",
-    content: <General />,
-  },
-  {
-    id: "projects",
-    label: "Projects",
-    content: <Projects />,
-  },
-  {
-    id: "contact",
-    label: "Contact",
-    content: <Contact />,
-  },
-];
 
-const ProfileModal = () => {
+type ProfileProps = {
+  general: Profile;
+  projects: Project[];
+  links: ContactType[];
+};
+
+const ProfileModal = ({ general, projects, links }: ProfileProps) => {
   const profileModal = useProfileModal();
+
+  const tabs: Tab[] = [
+    {
+      id: "general",
+      label: "General",
+      content: <General data={general} />,
+    },
+    {
+      id: "projects",
+      label: "Projects",
+      content: <Projects data={projects} />,
+    },
+    {
+      id: "contact",
+      label: "Contact",
+      content: <Contact data={links} />,
+    },
+  ];
   return (
     <PageModal isOpen={profileModal.isOpen} onClose={profileModal.onClose}>
       <div className="h-[80vh]">
