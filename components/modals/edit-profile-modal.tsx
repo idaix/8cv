@@ -48,7 +48,7 @@ const ProfileModal = ({ general, projects, links }: ProfileProps) => {
   ];
   return (
     <PageModal isOpen={profileModal.isOpen} onClose={profileModal.onClose}>
-      <div className="h-[80vh]">
+      <div className="h-[80vh] overflow-hidden">
         {mobileTabOpen && (
           <div className="sm:hidden">
             <Button
@@ -60,7 +60,7 @@ const ProfileModal = ({ general, projects, links }: ProfileProps) => {
             </Button>
           </div>
         )}
-        <Tabs defaultValue="general" className="h-full grid grid-cols-4">
+        <Tabs defaultValue="general" className="h-full grid grid-cols-4 pb-3">
           <TabsList
             className={cn(
               "col-span-4 sm:col-span-1 h-full flex-col justify-start bg-transparent pl-0 sm:pr-5 sm:border-r",
@@ -80,12 +80,12 @@ const ProfileModal = ({ general, projects, links }: ProfileProps) => {
           </TabsList>
           <div
             className={cn(
-              "col-span-4 sm:col-span-3 sm:pl-5",
+              "overflow-y-scroll no-scrollbar col-span-4 sm:col-span-3 sm:pl-5 pb-20",
               !mobileTabOpen && "hidden sm:block"
             )}
           >
             {tabs.map((tab) => (
-              <TabsContent className="h-full" key={tab.id} value={tab.id}>
+              <TabsContent className="h-full mb-20" key={tab.id} value={tab.id}>
                 {tab.content}
               </TabsContent>
             ))}

@@ -9,6 +9,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Profile } from "@prisma/client";
 import { useForm } from "react-hook-form";
@@ -132,7 +133,11 @@ const General: React.FC<IProps> = ({ initialData }) => {
               <FormItem>
                 <FormLabel>About</FormLabel>
                 <FormControl>
-                  <Input placeholder="Tell us about yourself" {...field} />
+                  {/* <Input placeholder="Tell us about yourself" {...field} /> */}
+                  <Textarea
+                    placeholder="Tell us about yourself"
+                    {...field}
+                  ></Textarea>
                 </FormControl>
                 <FormMessage />
               </FormItem>
