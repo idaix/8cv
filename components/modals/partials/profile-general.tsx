@@ -1,5 +1,14 @@
 "use client";
 
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Profile } from "@prisma/client";
 import { useForm } from "react-hook-form";
@@ -27,24 +36,111 @@ const formSchema = z.object({
 type FormSchema = z.infer<typeof formSchema>;
 
 interface IProps {
-  data?: Profile;
+  initialData?: Profile;
 }
 
-const General: React.FC<IProps> = ({ data }) => {
+const General: React.FC<IProps> = ({ initialData }) => {
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      username: "",
-      headline: "",
-      about: "",
-      location: "",
-      website: "",
-      displayName: "",
-      imageURL: "",
+      username: initialData?.username,
+      headline: initialData?.headline ?? "",
+      about: initialData?.about ?? "",
+      location: initialData?.location ?? "",
+      website: initialData?.website ?? "",
+      displayName: initialData?.name,
+      imageURL: initialData?.image ?? "",
     },
   });
   return (
-    <section className="bg-green-400/10 h-full">hello {data?.name}</section>
+    <section className=" h-full">
+      <Form {...form}>
+        <form className="grid gap-y-3">
+          <FormField
+            control={form.control}
+            name="username"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Username</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="username"
+                    value={field.value}
+                    onChange={field.onChange}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            name="displayName"
+            control={form.control}
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Display name</FormLabel>
+                <FormControl>
+                  <Input placeholder="Name" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            name="headline"
+            control={form.control}
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>What do you do?</FormLabel>
+                <FormControl>
+                  <Input placeholder="Designer, Developer, etc" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            name="location"
+            control={form.control}
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Location</FormLabel>
+                <FormControl>
+                  <Input placeholder="Where you're based" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            name="website"
+            control={form.control}
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Website</FormLabel>
+                <FormControl>
+                  <Input placeholder="https://example.com" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            name="about"
+            control={form.control}
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>About</FormLabel>
+                <FormControl>
+                  <Input placeholder="Tell us about yourself" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </form>
+      </Form>
+    </section>
   );
 };
 

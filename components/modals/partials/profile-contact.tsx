@@ -3,10 +3,10 @@
 import { Contact as ContactType } from "@prisma/client";
 
 interface IProps {
-  data: ContactType[];
+  initialData: ContactType[];
 }
-const Contact: React.FC<IProps> = ({ data }) => {
-  return <div>Test {data?.map((item) => "hello")}</div>;
+const Contact: React.FC<IProps> = ({ initialData }) => {
+  return <div>Test {initialData?.map((item) => "hello")}</div>;
 };
 
 export default Contact;

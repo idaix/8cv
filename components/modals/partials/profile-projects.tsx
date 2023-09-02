@@ -3,11 +3,11 @@
 import { Project } from "@prisma/client";
 
 interface IProps {
-  data?: Project[];
+  initialData?: Project[];
 }
 
-const Projects: React.FC<IProps> = ({ data }) => {
-  return <div>Projects here {data?.map((item) => "hello")}</div>;
+const Projects: React.FC<IProps> = ({ initialData }) => {
+  return <div>Projects here {initialData?.map((item) => "hello")}</div>;
 };
 
 export default Projects;
