@@ -80,12 +80,12 @@ const ProfileModal = ({ general, projects, links }: ProfileProps) => {
           </TabsList>
           <div
             className={cn(
-              "overflow-y-scroll no-scrollbar col-span-4 sm:col-span-3 sm:pl-5 pb-3 h-full",
+              "overflow-y-scroll no-scrollbar col-span-4 sm:col-span-3 sm:pl-5",
               !mobileTabOpen && "hidden sm:block"
             )}
           >
             {tabs.map((tab) => (
-              <TabsContent className=" h-full m-0" key={tab.id} value={tab.id}>
+              <TabsContent className="h-full m-0" key={tab.id} value={tab.id}>
                 {tab.content}
               </TabsContent>
             ))}
