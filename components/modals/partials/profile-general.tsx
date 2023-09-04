@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -10,8 +11,13 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { toast } from "@/components/ui/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Profile } from "@prisma/client";
+import axios from "axios";
+import { useSession } from "next-auth/react";
+import { redirect, useRouter } from "next/navigation";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
@@ -41,6 +47,15 @@ interface IProps {
 }
 
 const General: React.FC<IProps> = ({ initialData }) => {
+  const [loading, setLoading] = useState(false);
+  const { data: session, status } = useSession();
+  const router = useRouter();
+
+  if (status === "unauthenticated") {
+    console.log("Login required");
+    redirect("/?event=openModal");
+  }
+
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -53,10 +68,29 @@ const General: React.FC<IProps> = ({ initialData }) => {
       imageURL: initialData?.image ?? "",
     },
   });
+
+  const onSubmit = async (values: FormSchema) => {
+    setLoading(true);
+    try {
+      await axios.patch(`api/profile/${session?.user.username}`, values);
+      toast({
+        title: "Profile updated, Thank you",
+      });
+      router.refresh();
+    } catch (error) {
+      console.log("[ERROR_ON_UPDATING_PROFILE]", error);
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <section className=" h-full">
       <Form {...form}>
-        <form className="grid gap-y-3">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-y-3">
           <FormField
             control={form.control}
             name="username"
@@ -65,6 +99,7 @@ const General: React.FC<IProps> = ({ initialData }) => {
                 <FormLabel>Username</FormLabel>
                 <FormControl>
                   <Input
+                    disabled
                     placeholder="username"
                     value={field.value}
                     onChange={field.onChange}
@@ -81,7 +116,7 @@ const General: React.FC<IProps> = ({ initialData }) => {
               <FormItem>
                 <FormLabel>Display name</FormLabel>
                 <FormControl>
-                  <Input placeholder="Name" {...field} />
+                  <Input disabled={loading} placeholder="Name" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -94,7 +129,11 @@ const General: React.FC<IProps> = ({ initialData }) => {
               <FormItem>
                 <FormLabel>What do you do?</FormLabel>
                 <FormControl>
-                  <Input placeholder="Designer, Developer, etc" {...field} />
+                  <Input
+                    disabled={loading}
+                    placeholder="Designer, Developer, etc"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -107,7 +146,11 @@ const General: React.FC<IProps> = ({ initialData }) => {
               <FormItem>
                 <FormLabel>Location</FormLabel>
                 <FormControl>
-                  <Input placeholder="Where you're based" {...field} />
+                  <Input
+                    disabled={loading}
+                    placeholder="Where you're based"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -120,7 +163,11 @@ const General: React.FC<IProps> = ({ initialData }) => {
               <FormItem>
                 <FormLabel>Website</FormLabel>
                 <FormControl>
-                  <Input placeholder="https://example.com" {...field} />
+                  <Input
+                    disabled={loading}
+                    placeholder="https://example.com"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -135,6 +182,7 @@ const General: React.FC<IProps> = ({ initialData }) => {
                 <FormControl>
                   {/* <Input placeholder="Tell us about yourself" {...field} /> */}
                   <Textarea
+                    disabled={loading}
                     placeholder="Tell us about yourself"
                     {...field}
                   ></Textarea>
@@ -143,6 +191,9 @@ const General: React.FC<IProps> = ({ initialData }) => {
               </FormItem>
             )}
           />
+          <div className="flex items-center justify-end">
+            <Button type="submit">Save</Button>
+          </div>
         </form>
       </Form>
     </section>
