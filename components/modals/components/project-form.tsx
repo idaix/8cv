@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -10,8 +11,12 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { toast } from "@/components/ui/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Profile, Project } from "@prisma/client";
+import axios from "axios";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
@@ -19,7 +24,7 @@ const currentYear = new Date().getFullYear();
 
 const formSchema = z.object({
   title: z.string().min(1).max(100),
-  year: z.number().min(2000).max(currentYear),
+  year: z.coerce.number().min(2000).max(currentYear),
   link: z.string().regex(/^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/i, {
     message: "Invalid URL",
   }),
@@ -34,6 +39,10 @@ interface IProps {
 }
 
 const ProjectForm: React.FC<IProps> = () => {
+  const [loading, setLoading] = useState(false);
+  const { data: session } = useSession();
+  const router = useRouter();
+
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -41,12 +50,35 @@ const ProjectForm: React.FC<IProps> = () => {
       link: "",
       client: "",
       description: "",
+      year: currentYear,
     },
   });
+
+  const onSubmit = async (values: FormSchema) => {
+    setLoading(true);
+    try {
+      const res = await axios.post(
+        `api/profile/${session?.user.username}/project`,
+        values
+      );
+      toast({
+        title: `Project "${res.data.title}" added.`,
+      });
+      router.refresh();
+    } catch (error) {
+      console.log("[ERROR_ON_CREATING_PROJECT]", error);
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <section className=" h-full">
       <Form {...form}>
-        <form className="grid gap-y-3">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-y-3">
           <FormField
             name="title"
             control={form.control}
@@ -54,7 +86,7 @@ const ProjectForm: React.FC<IProps> = () => {
               <FormItem>
                 <FormLabel>Title*</FormLabel>
                 <FormControl>
-                  <Input placeholder="Woooof" {...field} />
+                  <Input disabled={loading} placeholder="Woooof" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -67,7 +99,12 @@ const ProjectForm: React.FC<IProps> = () => {
               <FormItem>
                 <FormLabel>Year*</FormLabel>
                 <FormControl>
-                  <Input placeholder={currentYear.toString()} {...field} />
+                  <Input
+                    disabled={loading}
+                    type="number"
+                    placeholder={currentYear.toString()}
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -80,7 +117,11 @@ const ProjectForm: React.FC<IProps> = () => {
               <FormItem>
                 <FormLabel>Company or client</FormLabel>
                 <FormControl>
-                  <Input placeholder="Acme inc." {...field} />
+                  <Input
+                    disabled={loading}
+                    placeholder="Acme inc."
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -93,7 +134,11 @@ const ProjectForm: React.FC<IProps> = () => {
               <FormItem>
                 <FormLabel>Link to project</FormLabel>
                 <FormControl>
-                  <Input placeholder="https://example.com" {...field} />
+                  <Input
+                    disabled={loading}
+                    placeholder="https://example.com"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -107,6 +152,7 @@ const ProjectForm: React.FC<IProps> = () => {
                 <FormLabel>Description</FormLabel>
                 <FormControl>
                   <Textarea
+                    disabled={loading}
                     placeholder="Tell us about your project"
                     {...field}
                   ></Textarea>
@@ -115,6 +161,9 @@ const ProjectForm: React.FC<IProps> = () => {
               </FormItem>
             )}
           />
+          <div className="flex items-center justify-end">
+            <Button type="submit">Save</Button>
+          </div>
         </form>
       </Form>
     </section>
