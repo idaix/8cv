@@ -1,8 +1,7 @@
 "use client";
 
+import ProjectCard from "@/components/project-card";
 import { Project } from "@prisma/client";
-import ProjectCard from "./project-card";
-
 interface IProps {
   projects: Project[];
 }

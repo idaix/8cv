@@ -74,10 +74,10 @@ const MyProfile = async ({ params }: { params: { username: string } }) => {
         <div className="grid gap-y-16">
           <ProfileGeneral profile={profile} />
           <Section title="Projects">
-            <Projects projects={projects} />
+            <Projects projects={profile.projects} />
           </Section>
           <Section title="Contact">
-            <Contact links={links} />
+            <Contact links={profile.links} />
           </Section>
         </div>
       </div>

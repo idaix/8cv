@@ -5,6 +5,7 @@ import SectionHeader from "../components/section-header";
 import NoData from "../components/no-data";
 import { Suspense, useState } from "react";
 import ProjectForm from "../components/project-form";
+import ProjectCard from "@/components/project-card";
 
 interface IProps {
   initialData: Project[];
@@ -22,11 +23,11 @@ const Projects: React.FC<IProps> = ({ initialData }) => {
             {!initialData.length ? (
               <NoData type="PROJECT" />
             ) : (
-              <>
+              <div className="space-y-5">
                 {initialData.map((item) => (
-                  <div key={item.id}>{item.title}</div>
+                  <ProjectCard key={item.id} project={item} />
                 ))}
-              </>
+              </div>
             )}
           </Suspense>
         )}

@@ -5,6 +5,7 @@ import SectionHeader from "../components/section-header";
 import { Suspense, useState } from "react";
 import NoData from "../components/no-data";
 import ContactForm from "../components/contact-form";
+import ContactCard from "@/components/contact-card";
 
 interface IProps {
   initialData: ContactType[];
@@ -22,11 +23,11 @@ const Contact: React.FC<IProps> = ({ initialData }) => {
             {!initialData.length ? (
               <NoData type="CONTACT" />
             ) : (
-              <>
+              <div className="space-y-5">
                 {initialData.map((item) => (
-                  <div key={item.id}>{item.type}</div>
+                  <ContactCard key={item.id} link={item} />
                 ))}
-              </>
+              </div>
             )}
           </Suspense>
         )}
