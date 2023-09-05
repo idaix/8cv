@@ -4,11 +4,9 @@ import prismadb from "@/lib/prismadb";
 import Section from "./components/section";
 import Projects from "./components/projects";
 import Contact from "./components/contact";
-import { links, projects } from "@/localdata";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import ProfileModal from "@/components/modals/edit-profile-modal";
-import { Profile } from "@prisma/client";
 
 export async function generateMetadata({
   params,
@@ -21,7 +19,11 @@ export async function generateMetadata({
     },
     include: {
       user: true,
-      projects: true,
+      projects: {
+        orderBy: {
+          year: "desc",
+        },
+      },
       links: true,
     },
   });
