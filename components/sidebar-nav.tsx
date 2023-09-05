@@ -19,9 +19,9 @@ const SidebarNav = () => {
 
   const navLinks: NavLinks[] = [
     {
-      label: "Explore",
-      path: "/",
-      active: pathname === "/",
+      label: "Feed",
+      path: "/feed",
+      active: pathname === "/feed",
       icon: <FlameIcon className="h-6 w-6" />,
     },
     {
