@@ -1,19 +1,22 @@
 import Navbar from "@/components/navbar";
 import { getFeed } from "@/lib/get-feed";
-import { Project } from "@prisma/client";
-const Feed = async () => {
-  const feed: Project[] = await getFeed();
+import FeedHead from "./components/feed-head";
+import FeedCard from "./components/feed-card";
+import { Feed } from "@/types";
+
+const FeedPage = async () => {
+  const feed: Feed[] = await getFeed();
   return (
     <main className="h-screen flex flex-col">
       <Navbar />
-
-      <div className="py-5">
+      <FeedHead />
+      <section className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4">
         {feed.map((item) => (
-          <div key={item.id}>{item.title}</div>
+          <FeedCard key={item.id} data={item} />
         ))}
-      </div>
+      </section>
     </main>
   );
 };
 
-export default Feed;
+export default FeedPage;

@@ -11,6 +11,9 @@ export async function GET(request: Request) {
       orderBy: {
         createdAt: "desc",
       },
+      include: {
+        profile: true,
+      },
     });
     return NextResponse.json(allProjects);
   } catch (error) {
