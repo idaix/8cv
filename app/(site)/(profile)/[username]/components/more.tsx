@@ -10,7 +10,7 @@ import { useProfileModal } from "@/hooks/use-profile-modal";
 import { DownloadIcon, MoreHorizontal, PencilIcon } from "lucide-react";
 import { useSession } from "next-auth/react";
 
-const More = () => {
+const More = ({ username }: { username: string }) => {
   const { data: session, status } = useSession();
   const profileModal = useProfileModal();
   return (
@@ -19,7 +19,7 @@ const More = () => {
         <MoreHorizontal className="text-muted-foreground w-4 h-4" />
       </DropdownMenuTrigger>
       <DropdownMenuContent>
-        {status === "authenticated" && (
+        {status === "authenticated" && session.user.username === username && (
           <>
             <DropdownMenuItem onClick={profileModal.onOpen}>
               <PencilIcon className="h-4 w-4 mr-2" />

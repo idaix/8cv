@@ -37,7 +37,7 @@ const ProfileGeneral: React.FC<ProfileGeneralProps> = ({ profile }) => {
             </div>
           </div>
         </div>
-        <More />
+        <More username={profile.username} />
       </div>
       {profile.about && (
         <section>
