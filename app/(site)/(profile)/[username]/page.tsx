@@ -7,6 +7,7 @@ import Contact from "./components/contact";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import ProfileModal from "@/components/modals/edit-profile-modal";
+import { CircleOffIcon } from "lucide-react";
 
 export async function generateMetadata({
   params,
@@ -56,6 +57,15 @@ const MyProfile = async ({ params }: { params: { username: string } }) => {
     notFound();
   }
 
+  let hasContent: boolean = false;
+  if (
+    profile.about &&
+    profile.links.length > 0 &&
+    profile.projects.length > 0
+  ) {
+    hasContent = true;
+  }
+
   return (
     <main className="h-full">
       <ProfileModal
@@ -75,12 +85,31 @@ const MyProfile = async ({ params }: { params: { username: string } }) => {
       >
         <div className="grid gap-y-16">
           <ProfileGeneral profile={profile} />
-          <Section title="Projects">
-            <Projects projects={profile.projects} />
-          </Section>
-          <Section title="Contact">
-            <Contact links={profile.links} />
-          </Section>
+
+          {hasContent ? (
+            <>
+              {profile.projects.length > 0 && (
+                <Section title="Projects">
+                  <Projects projects={profile.projects} />
+                </Section>
+              )}
+              {profile.links.length > 0 && (
+                <Section title="Contact">
+                  <Contact links={profile.links} />
+                </Section>
+              )}
+            </>
+          ) : (
+            <div>
+              <p className="flex items-center gap-x-2">
+                <CircleOffIcon className="h-5 w-5" />
+                Nothing here yet!
+              </p>
+              <p className="text-sm">
+                It looks like {profile.name} is still working on it.
+              </p>
+            </div>
+          )}
         </div>
       </div>
     </main>

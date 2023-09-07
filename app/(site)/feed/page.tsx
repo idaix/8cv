@@ -10,7 +10,7 @@ const FeedPage = async () => {
     <main className="h-screen flex flex-col">
       <Navbar />
       <FeedHead />
-      <section className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4">
+      <section className="px-5 columns-1 sm:columns-2 lg:columns-3 xl:columns-4">
         {feed.map((item) => (
           <FeedCard key={item.id} data={item} />
         ))}

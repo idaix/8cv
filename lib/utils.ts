@@ -6,6 +6,7 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function formatedName(name: string) {
+  if (!name) return "";
   let nameToArray = name.split(" ");
   if (nameToArray.length > 1) {
     return nameToArray[0].slice(0, 1) + nameToArray[1].slice(0, 1);

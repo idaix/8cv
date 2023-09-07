@@ -32,7 +32,7 @@ const WelcomePage = () => {
 
       checkProfile();
     }
-  }, [status]);
+  }, [status, router]);
 
   const nextStep = () => {
     setSteps((value) => value + 1);
@@ -46,18 +46,7 @@ const WelcomePage = () => {
           Brilliant
         </span>
       </h1>
-      <h1 className="text-4xl font-bold">
-        Are you ready to make{" "}
-        <span className="bg-clip-text bg-gradient-to-tr from-green-400 to-violet-600 text-transparent">
-          THE BOOM
-        </span>
-      </h1>
-      <h1 className="text-4xl font-bold">
-        You are in the right{" "}
-        <span className="bg-clip-text bg-gradient-to-tr from-green-400 to-violet-600 text-transparent">
-          Place
-        </span>
-      </h1>
+
       <h1 className="text-4xl font-bold">
         Lets create your{" "}
         <span className="bg-clip-text bg-gradient-to-tr from-green-400 to-violet-600 text-transparent">
