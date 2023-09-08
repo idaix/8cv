@@ -13,6 +13,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/components/ui/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Project } from "@prisma/client";
 import axios from "axios";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -35,10 +36,10 @@ const formSchema = z.object({
 type FormSchema = z.infer<typeof formSchema>;
 
 interface IProps {
-  // initialData?: Project;
+  initialData?: Project;
 }
 
-const ProjectForm: React.FC<IProps> = () => {
+const ProjectForm: React.FC<IProps> = ({ initialData }) => {
   const [loading, setLoading] = useState(false);
   const { data: session } = useSession();
   const router = useRouter();
@@ -46,24 +47,34 @@ const ProjectForm: React.FC<IProps> = () => {
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      title: "",
-      link: "",
-      client: "",
-      description: "",
-      year: currentYear,
+      title: initialData?.title || "",
+      link: initialData?.link || "",
+      client: initialData?.client || "",
+      description: initialData?.description || "",
+      year: initialData?.year || currentYear,
     },
   });
 
   const onSubmit = async (values: FormSchema) => {
     setLoading(true);
     try {
-      const res = await axios.post(
-        `api/profile/${session?.user.username}/project`,
-        values
-      );
-      toast({
-        title: `Project "${res.data.title}" added.`,
-      });
+      if (initialData) {
+        const res = await axios.patch(
+          `api/profile/${session?.user.username}/project/${initialData.id}`,
+          values
+        );
+        toast({
+          title: `Project "${res.data.title}" updated.`,
+        });
+      } else {
+        const res = await axios.post(
+          `api/profile/${session?.user.username}/project`,
+          values
+        );
+        toast({
+          title: `Project "${res.data.title}" added.`,
+        });
+      }
       router.refresh();
     } catch (error) {
       console.log("[ERROR_ON_CREATING_PROJECT]", error);
@@ -162,7 +173,9 @@ const ProjectForm: React.FC<IProps> = () => {
             )}
           />
           <div className="flex items-center justify-end">
-            <Button type="submit">Save</Button>
+            <Button disabled={loading} type="submit">
+              Save
+            </Button>
           </div>
         </form>
       </Form>

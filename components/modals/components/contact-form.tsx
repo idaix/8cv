@@ -12,6 +12,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { toast } from "@/components/ui/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Contact } from "@prisma/client";
 import axios from "axios";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -27,10 +28,10 @@ const formSchema = z.object({
 type FormSchema = z.infer<typeof formSchema>;
 
 interface IProps {
-  // initialData?: Project;
+  initialData?: Contact;
 }
 
-const ContactForm: React.FC<IProps> = () => {
+const ContactForm: React.FC<IProps> = ({ initialData }) => {
   const [loading, setLoading] = useState(false);
   const { data: session } = useSession();
   const router = useRouter();
@@ -38,21 +39,31 @@ const ContactForm: React.FC<IProps> = () => {
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      type: "",
-      link: "",
+      type: initialData?.type || "",
+      link: initialData?.link || "",
     },
   });
 
   const onSubmit = async (values: FormSchema) => {
     setLoading(true);
     try {
-      const res = await axios.post(
-        `api/profile/${session?.user.username}/contact`,
-        values
-      );
-      toast({
-        title: `${res.data.type} link added.`,
-      });
+      if (initialData) {
+        const res = await axios.patch(
+          `api/profile/${session?.user.username}/contact/${initialData.id}`,
+          values
+        );
+        toast({
+          title: `${res.data.type} link updated.`,
+        });
+      } else {
+        const res = await axios.post(
+          `api/profile/${session?.user.username}/contact`,
+          values
+        );
+        toast({
+          title: `${res.data.type} link added.`,
+        });
+      }
       router.refresh();
     } catch (error) {
       console.log("[ERROR_ON_CREATING_LINK]", error);
@@ -75,7 +86,11 @@ const ContactForm: React.FC<IProps> = () => {
               <FormItem>
                 <FormLabel>Type*</FormLabel>
                 <FormControl>
-                  <Input placeholder="Personal, Github, etc" {...field} />
+                  <Input
+                    disabled={loading}
+                    placeholder="Personal, Github, etc"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -88,14 +103,20 @@ const ContactForm: React.FC<IProps> = () => {
               <FormItem>
                 <FormLabel>Link*</FormLabel>
                 <FormControl>
-                  <Input placeholder="https://example.com" {...field} />
+                  <Input
+                    disabled={loading}
+                    placeholder="https://example.com"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
           <div className="flex items-center justify-end">
-            <Button type="submit">Save</Button>
+            <Button disabled={loading} type="submit">
+              Save
+            </Button>
           </div>
         </form>
       </Form>

@@ -12,12 +12,13 @@ interface IProps {
 }
 const Contact: React.FC<IProps> = ({ initialData }) => {
   const [openForm, setOpenForm] = useState(false);
+  const [form, setForm] = useState(<ContactForm />);
 
   return (
     <div className="h-full">
       <SectionHeader title="Contact" onClick={() => setOpenForm(true)}>
         {openForm ? (
-          <ContactForm />
+          <>{form}</>
         ) : (
           <Suspense fallback={"loading piece of shit..."}>
             {!initialData.length ? (
@@ -25,7 +26,13 @@ const Contact: React.FC<IProps> = ({ initialData }) => {
             ) : (
               <div className="space-y-5">
                 {initialData.map((item) => (
-                  <ContactCard key={item.id} link={item} />
+                  <ContactCard
+                    key={item.id}
+                    link={item}
+                    allowEdit
+                    setForm={setForm}
+                    setOpenForm={setOpenForm}
+                  />
                 ))}
               </div>
             )}

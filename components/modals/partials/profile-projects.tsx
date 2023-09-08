@@ -13,11 +13,12 @@ interface IProps {
 
 const Projects: React.FC<IProps> = ({ initialData }) => {
   const [openForm, setOpenForm] = useState(false);
+  const [form, setForm] = useState(<ProjectForm />);
   return (
     <div className="h-full">
       <SectionHeader title="Projects" onClick={() => setOpenForm(true)}>
         {openForm ? (
-          <ProjectForm />
+          <>{form}</>
         ) : (
           <Suspense fallback={"loading piece of shit..."}>
             {!initialData.length ? (
@@ -25,7 +26,13 @@ const Projects: React.FC<IProps> = ({ initialData }) => {
             ) : (
               <div className="space-y-5">
                 {initialData.map((item) => (
-                  <ProjectCard key={item.id} project={item} />
+                  <ProjectCard
+                    key={item.id}
+                    allowEdit
+                    project={item}
+                    setForm={setForm}
+                    setOpenForm={setOpenForm}
+                  />
                 ))}
               </div>
             )}
