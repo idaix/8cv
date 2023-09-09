@@ -73,7 +73,9 @@ const ProjectCard: React.FC<IProps> = ({
           <p>{project.title}</p>
         )}
         {/* description */}
-        <p className="text-muted-foreground mt-1">{project.description}</p>
+        <p className="whitespace-pre-line text-muted-foreground mt-1">
+          {project.description}
+        </p>
       </div>
       {allowEdit && (
         <div className="mt-1 col-span-4 sm:col-span-3 sm:col-start-2 flex items-center gap-x-4">

@@ -59,8 +59,8 @@ const MyProfile = async ({ params }: { params: { username: string } }) => {
 
   let hasContent: boolean = false;
   if (
-    profile.about &&
-    profile.links.length > 0 &&
+    profile.about ||
+    profile.links.length > 0 ||
     profile.projects.length > 0
   ) {
     hasContent = true;
