@@ -23,7 +23,7 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
         description: "try again!",
       });
     }
-  }, [event, error]);
+  }, [event, error, authModal]);
   return (
     <SessionProvider>
       <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
