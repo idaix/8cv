@@ -25,6 +25,7 @@ const FeedCard: React.FC<FeedCardProps> = ({ data }) => {
           width={0}
           height={0}
           sizes="100vw"
+          priority={false}
           style={{ width: "100%", height: "auto" }}
         />
 

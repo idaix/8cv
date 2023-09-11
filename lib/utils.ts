@@ -15,7 +15,4 @@ export function formatedName(name: string) {
   }
 }
 
-export const BASE_URL =
-  process.env.NODE_ENV === "development"
-    ? "http://127.0.0.1:3000"
-    : process.env.BASE_URL;
+export const API_URL = process.env.API_URL || "";

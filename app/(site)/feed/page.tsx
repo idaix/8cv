@@ -1,11 +1,20 @@
 import Navbar from "@/components/navbar";
-import { getFeed } from "@/lib/get-feed";
+// import { getFeed } from "@/lib/get-feed";
 import FeedHead from "./components/feed-head";
 import FeedCard from "./components/feed-card";
-import { Feed } from "@/types";
+// import { Feed } from "@/types";
+import prismadb from "@/lib/prismadb";
 
 const FeedPage = async () => {
-  const feed: Feed[] = await getFeed();
+  const feed = await prismadb.project.findMany({
+    orderBy: {
+      createdAt: "desc",
+    },
+    include: {
+      profile: true,
+    },
+  });
+
   return (
     <main className="h-screen flex flex-col">
       <Navbar />
