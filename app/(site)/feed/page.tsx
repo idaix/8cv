@@ -5,7 +5,7 @@ import FeedCard from "./components/feed-card";
 // import { Feed } from "@/types";
 import prismadb from "@/lib/prismadb";
 
-export const revalidate = 60;
+export const revalidate = 3600;
 
 const FeedPage = async () => {
   const feed = await prismadb.project.findMany({

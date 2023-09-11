@@ -18,6 +18,7 @@ const Sidebar = () => {
         sm:top-0
         sm:border-r
         sm:h-screen
+        z-30
       "
     >
       <SidebarNav />
