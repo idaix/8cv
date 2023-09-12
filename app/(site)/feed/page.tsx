@@ -18,7 +18,7 @@ const FeedPage = async () => {
   });
 
   return (
-    <main className="h-screen flex flex-col">
+    <main className="h-full flex flex-col">
       <Navbar />
       <div className="felx-1">
         <FeedHead />

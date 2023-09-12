@@ -24,7 +24,7 @@ const Projects: React.FC<IProps> = ({ initialData }) => {
             {!initialData.length ? (
               <NoData type="PROJECT" />
             ) : (
-              <div className="space-y-5">
+              <div className="space-y-5 pb-10">
                 {initialData.map((item) => (
                   <ProjectCard
                     key={item.id}

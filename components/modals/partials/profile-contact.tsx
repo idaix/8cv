@@ -24,7 +24,7 @@ const Contact: React.FC<IProps> = ({ initialData }) => {
             {!initialData.length ? (
               <NoData type="CONTACT" />
             ) : (
-              <div className="space-y-5">
+              <div className="space-y-5 pb-10">
                 {initialData.map((item) => (
                   <ContactCard
                     key={item.id}

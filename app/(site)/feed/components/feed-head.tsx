@@ -1,5 +1,3 @@
-"use client";
-
 const FeedHead = () => {
   return (
     <div className="py-5 px-5">

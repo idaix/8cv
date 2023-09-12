@@ -113,7 +113,7 @@ const ContactForm: React.FC<IProps> = ({ initialData }) => {
               </FormItem>
             )}
           />
-          <div className="flex items-center justify-end">
+          <div className="flex items-center justify-end mb-10">
             <Button disabled={loading} type="submit">
               Save
             </Button>

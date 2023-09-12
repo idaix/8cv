@@ -180,7 +180,6 @@ const General: React.FC<IProps> = ({ initialData }) => {
               <FormItem>
                 <FormLabel>About</FormLabel>
                 <FormControl>
-                  {/* <Input placeholder="Tell us about yourself" {...field} /> */}
                   <Textarea
                     disabled={loading}
                     placeholder="Tell us about yourself"
@@ -191,7 +190,7 @@ const General: React.FC<IProps> = ({ initialData }) => {
               </FormItem>
             )}
           />
-          <div className="flex items-center justify-end">
+          <div className="flex items-center justify-end mb-10">
             <Button type="submit">Save</Button>
           </div>
         </form>

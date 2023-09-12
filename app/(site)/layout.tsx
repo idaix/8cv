@@ -12,6 +12,8 @@ export default function SiteLayout({
         className="
           sm:ml-16
           min-h-screen
+          pb-14
+          sm:pb-0
         "
       >
         {children}
