@@ -7,27 +7,32 @@ import {
 } from "@/components/ui/card";
 import { cn, formatedName } from "@/lib/utils";
 import { Feed } from "@/types";
+import { ProjectImage } from "@prisma/client";
 import { MoveUpRightIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
 interface FeedCardProps {
-  data: Feed;
+  data: Feed & {
+    images: ProjectImage[];
+  };
 }
-const image = true;
 const FeedCard: React.FC<FeedCardProps> = ({ data }) => {
   return (
     <Card className="overflow-hidden mb-4">
-      <CardHeader className={cn("relative", image && "p-0")}>
-        <Image
-          src={`https://source.unsplash.com/random/?design&${data.id}`}
-          alt="Random image"
-          width={0}
-          height={0}
-          sizes="100vw"
-          priority={false}
-          style={{ width: "100%", height: "auto" }}
-        />
+      <CardHeader className={cn("relative", data.images.length > 0 && "p-0")}>
+        {data.images.length > 0 && (
+          <Image
+            // src={`https://source.unsplash.com/random/?design&${data.id}`}
+            src={data.images[0].url}
+            alt="Random image"
+            width={0}
+            height={0}
+            sizes="100vw"
+            priority={false}
+            style={{ width: "100%", height: "auto" }}
+          />
+        )}
 
         <Link href={`/${data.profileId}`} className="absolute top-3 left-6">
           <Avatar>

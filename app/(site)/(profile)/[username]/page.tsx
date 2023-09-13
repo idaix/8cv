@@ -48,7 +48,11 @@ const MyProfile = async ({ params }: { params: { username: string } }) => {
     },
     include: {
       user: true,
-      projects: true,
+      projects: {
+        include: {
+          images: true,
+        },
+      },
       links: true,
     },
   });

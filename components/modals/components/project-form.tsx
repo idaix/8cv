@@ -12,10 +12,12 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/components/ui/use-toast";
+import { UploadButton } from "@/utils/uploadthing";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Project } from "@prisma/client";
+import { Project, ProjectImage } from "@prisma/client";
 import axios from "axios";
 import { useSession } from "next-auth/react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -25,18 +27,35 @@ const currentYear = new Date().getFullYear();
 
 const formSchema = z.object({
   title: z.string().min(1).max(100),
-  year: z.coerce.number().min(2000).max(currentYear),
-  link: z.string().regex(/^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/i, {
-    message: "Invalid URL",
-  }),
+  year: z.coerce
+    .number()
+    .min(1000, {
+      message: `Oh no, bruh! 🙄 Unless you've got a time machine hidden somewhere. Please check your project year again; it should be between 1000 and ${currentYear}. Time travel isn't on our feature list! 😉`,
+    })
+    .max(currentYear),
+  link: z
+    .string()
+    .optional()
+    .refine(
+      (value) => {
+        if (!value) return true; // If value is not provided, it's valid.
+        return /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/i.test(value); // Check URL format.
+      },
+      {
+        message: "Invalid URL",
+      }
+    ),
   client: z.string(),
   description: z.string(),
+  images: z.object({ url: z.string() }).array(),
 });
 
 type FormSchema = z.infer<typeof formSchema>;
 
 interface IProps {
-  initialData?: Project;
+  initialData?: Project & {
+    images: ProjectImage[];
+  };
 }
 
 const ProjectForm: React.FC<IProps> = ({ initialData }) => {
@@ -52,6 +71,7 @@ const ProjectForm: React.FC<IProps> = ({ initialData }) => {
       client: initialData?.client || "",
       description: initialData?.description || "",
       year: initialData?.year || currentYear,
+      images: initialData?.images || [],
     },
   });
 
@@ -172,6 +192,57 @@ const ProjectForm: React.FC<IProps> = ({ initialData }) => {
               </FormItem>
             )}
           />
+          <FormField
+            name="images"
+            control={form.control}
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <div className="border p-2 rounded-md">
+                    <div className="flex flex-wrap gap-2">
+                      {field.value.map((image) => (
+                        <div
+                          key={image.url}
+                          className="relative w-[100px] h-[100px]"
+                        >
+                          <div className="absolute top-1 right-1 z-10"></div>
+                          <Image
+                            src={image.url}
+                            alt="Image"
+                            fill
+                            className="object-cover rounded-md"
+                          />
+                        </div>
+                      ))}
+                    </div>
+                    <div className="">
+                      <UploadButton
+                        endpoint="imageUploader"
+                        onClientUploadComplete={(res) => {
+                          if (res) {
+                            const newFiles = res.map((file) => ({
+                              url: file.url,
+                            }));
+                            field.onChange([...field.value, ...newFiles]);
+                          }
+                        }}
+                        onUploadError={(error: Error) => {
+                          // Do something with the error.
+                          toast({
+                            variant: "destructive",
+                            title: "Upload error",
+                            description: `ERROR! ${error.message}`,
+                          });
+                        }}
+                      />
+                    </div>
+                  </div>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
           <div className="flex items-center justify-end mb-10">
             <Button disabled={loading} type="submit">
               Save

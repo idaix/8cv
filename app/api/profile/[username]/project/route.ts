@@ -8,7 +8,7 @@ export async function POST(
 ) {
   try {
     const body = await request.json();
-    const { title, year, link, client, description } = body;
+    const { title, year, link, client, description, images } = body;
     if (!params.username || !year || !title) {
       return new NextResponse("Missing fields id are required!", {
         status: 400,
@@ -33,18 +33,37 @@ export async function POST(
         status: 400,
       });
     }
-    const project = await prismadb.project.create({
-      data: {
-        title,
-        year,
-        client,
-        description,
-        link,
-        profileId: profile.username,
-      },
-    });
 
-    return NextResponse.json(project);
+    if (images.length > 0) {
+      const project = await prismadb.project.create({
+        data: {
+          title,
+          year,
+          client,
+          description,
+          link,
+          profileId: profile.username,
+          images: {
+            createMany: {
+              data: [...images.map((image: { url: string }) => image)],
+            },
+          },
+        },
+      });
+      return NextResponse.json(project);
+    } else {
+      const project = await prismadb.project.create({
+        data: {
+          title,
+          year,
+          client,
+          description,
+          link,
+          profileId: profile.username,
+        },
+      });
+      return NextResponse.json(project);
+    }
   } catch (error) {
     return new NextResponse("Something went wrong");
   }

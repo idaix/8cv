@@ -14,6 +14,7 @@ const FeedPage = async () => {
     },
     include: {
       profile: true,
+      images: true,
     },
   });
 

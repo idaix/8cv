@@ -8,7 +8,7 @@ export async function PATCH(
 ) {
   try {
     const body = await request.json();
-    const { title, year, link, client, description } = body;
+    const { title, year, link, client, description, images } = body;
 
     if (!params.projectId) {
       return new NextResponse("Missing project id", { status: 403 });
@@ -33,7 +33,8 @@ export async function PATCH(
       });
     }
 
-    const project = await prismadb.project.update({
+    // First we update to delete all images
+    await prismadb.project.update({
       where: {
         id: params.projectId,
         profileId: profile.username,
@@ -45,9 +46,25 @@ export async function PATCH(
         description,
         link,
         profileId: profile.username,
+        images: {
+          deleteMany: {},
+        },
       },
     });
-
+    // Then we'll add all images again + new one
+    const project = await prismadb.project.update({
+      where: {
+        id: params.projectId,
+        profileId: profile.username,
+      },
+      data: {
+        images: {
+          createMany: {
+            data: [...images.map((image: { url: string }) => image)],
+          },
+        },
+      },
+    });
     return NextResponse.json(project);
   } catch (error) {
     console.error("UPDATE_PROJECT_ERROR", error);

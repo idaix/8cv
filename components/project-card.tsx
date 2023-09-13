@@ -1,6 +1,6 @@
 "use client";
 
-import { Project } from "@prisma/client";
+import { Project, ProjectImage } from "@prisma/client";
 import { MoveUpRightIcon } from "lucide-react";
 import Link from "next/link";
 import { Button } from "./ui/button";
@@ -9,9 +9,12 @@ import { toast } from "./ui/use-toast";
 import { ReactElement, useState } from "react";
 import ProjectForm from "./modals/components/project-form";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 interface IProps {
-  project: Project;
+  project: Project & {
+    images: ProjectImage[];
+  };
   allowEdit?: boolean;
   setOpenForm?: (value: boolean) => void;
   setForm?: (value: ReactElement) => void;
@@ -76,6 +79,28 @@ const ProjectCard: React.FC<IProps> = ({
         <p className="whitespace-pre-line text-muted-foreground mt-1">
           {project.description}
         </p>
+        {/* images */}
+
+        {project.images.length > 0 && (
+          <div className="mt-2 flex flex-col gap-y-2">
+            {project.images.map((image) => (
+              <div
+                key={image.url}
+                className="w-full h-auto relative rounded-md overflow-hidden"
+              >
+                <Image
+                  src={image.url}
+                  alt={project.title}
+                  width={0}
+                  height={0}
+                  sizes="100vw"
+                  priority={false}
+                  style={{ width: "100%", height: "auto" }}
+                />
+              </div>
+            ))}
+          </div>
+        )}
       </div>
       {allowEdit && (
         <div className="mt-1 col-span-4 sm:col-span-3 sm:col-start-2 flex items-center gap-x-4">

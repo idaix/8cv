@@ -7,7 +7,12 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import General from "./partials/profile-general";
 import Projects from "./partials/profile-projects";
 import Contact from "./partials/profile-contact";
-import { Contact as ContactType, Profile, Project } from "@prisma/client";
+import {
+  Contact as ContactType,
+  Profile,
+  Project,
+  ProjectImage,
+} from "@prisma/client";
 import React, { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
@@ -21,7 +26,9 @@ type Tab = {
 
 type ProfileProps = {
   general: Profile;
-  projects: Project[];
+  projects: (Project & {
+    images: ProjectImage[];
+  })[];
   links: ContactType[];
 };
 
