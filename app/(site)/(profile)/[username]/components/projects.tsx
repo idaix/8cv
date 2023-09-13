@@ -1,9 +1,11 @@
 "use client";
 
 import ProjectCard from "@/components/project-card";
-import { Project } from "@prisma/client";
+import { Project, ProjectImage } from "@prisma/client";
 interface IProps {
-  projects: Project[];
+  projects: (Project & {
+    images: ProjectImage[];
+  })[];
 }
 const Projects: React.FC<IProps> = ({ projects }) => {
   return (
