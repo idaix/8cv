@@ -4,6 +4,7 @@ import FeedHead from "./components/feed-head";
 import FeedCard from "./components/feed-card";
 // import { Feed } from "@/types";
 import prismadb from "@/lib/prismadb";
+import FirstCard from "./components/first-card";
 
 export const revalidate = 3600;
 
@@ -24,6 +25,7 @@ const FeedPage = async () => {
       <div className="felx-1">
         <FeedHead />
         <section className="px-5 columns-1 sm:columns-2 lg:columns-3 xl:columns-4">
+          <FirstCard />
           {feed.map((item) => (
             <FeedCard key={item.id} data={item} />
           ))}

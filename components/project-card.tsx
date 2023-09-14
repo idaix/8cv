@@ -76,7 +76,7 @@ const ProjectCard: React.FC<IProps> = ({
           <p>{project.title}</p>
         )}
         {/* description */}
-        <p className="whitespace-pre-line text-muted-foreground mt-1 text-base">
+        <p className="whitespace-pre-line text-muted-foreground mt-1 text-sm">
           {project.description}
         </p>
         {/* images */}
