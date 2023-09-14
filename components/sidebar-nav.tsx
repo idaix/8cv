@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 import UserDropdown from "./user-dropdown";
 import { useSession } from "next-auth/react";
+import GoBack from "./go-back";
 const SidebarNav = () => {
   const router = useRouter();
   const pathname = usePathname();
@@ -57,6 +58,10 @@ const SidebarNav = () => {
 
       "
     >
+      <div className="hidden sm:block absolute top-3">
+        <GoBack />
+      </div>
+
       {navLinks.map((link) => (
         <li
           key={link.label}

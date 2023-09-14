@@ -76,17 +76,17 @@ const ProjectCard: React.FC<IProps> = ({
           <p>{project.title}</p>
         )}
         {/* description */}
-        <p className="whitespace-pre-line text-muted-foreground mt-1">
+        <p className="whitespace-pre-line text-muted-foreground mt-1 text-base">
           {project.description}
         </p>
         {/* images */}
 
         {project.images.length > 0 && (
-          <div className="mt-2 flex flex-col gap-y-2">
+          <div className="mt-2 flex flex-col flex-wrap gap-2">
             {project.images.map((image) => (
               <div
                 key={image.url}
-                className="w-full h-auto relative rounded-md overflow-hidden"
+                className="w-fit h-[100px] relative rounded-md overflow-hidden"
               >
                 <Image
                   src={image.url}
@@ -95,7 +95,7 @@ const ProjectCard: React.FC<IProps> = ({
                   height={0}
                   sizes="100vw"
                   priority={false}
-                  style={{ width: "100%", height: "auto" }}
+                  style={{ width: "auto", height: "100%" }}
                 />
               </div>
             ))}
