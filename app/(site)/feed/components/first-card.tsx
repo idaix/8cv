@@ -12,9 +12,7 @@ const FirstCard = () => {
   return (
     <Card className="overflow-hidden mb-4 bg-muted">
       <CardContent className="pt-6 pb-3">
-        <h3 className="text-xs text-muted-foreground mb-1">
-          About Talents app
-        </h3>
+        <p className="text-xs text-muted-foreground mb-1">About Talents app</p>
         <p>
           Talents app is a beautiful space to share your skills, CV, projects,
           thoughts, blogs links and your talent✨

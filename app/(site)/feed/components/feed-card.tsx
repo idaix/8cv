@@ -25,7 +25,7 @@ const FeedCard: React.FC<FeedCardProps> = ({ data }) => {
           <Image
             // src={`https://source.unsplash.com/random/?design&${data.id}`}
             src={data.images[0].url}
-            alt="Random image"
+            alt={data.title + " image"}
             width={0}
             height={0}
             sizes="100vw"
@@ -35,8 +35,12 @@ const FeedCard: React.FC<FeedCardProps> = ({ data }) => {
         )}
 
         <Link href={`/${data.profileId}`} className="absolute top-3 left-6">
+          <span className="sr-only">{data.profile.name + "'s profile"}</span>
           <Avatar>
-            <AvatarImage src={data.profile.image as string} />
+            <AvatarImage
+              src={data.profile.image as string}
+              alt={data.profile.name + "'s profile image"}
+            />
             <AvatarFallback className="bg-black/30 backdrop-blur">
               {formatedName(data.profile.name || "X")}
             </AvatarFallback>

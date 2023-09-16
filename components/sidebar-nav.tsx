@@ -40,7 +40,7 @@ const SidebarNav = () => {
     },
   ];
   return (
-    <ul
+    <div
       className="
           relative
           flex
@@ -63,22 +63,25 @@ const SidebarNav = () => {
       </div>
 
       {navLinks.map((link) => (
-        <li
+        <div
           key={link.label}
           className={cn(
             "text-muted-foreground hover:text-primary cursor-pointer sm:w-full flex justify-center transition-all",
             link.active && "text-primary"
           )}
         >
-          <Link href={link.path}>{link.icon}</Link>
-        </li>
+          <Link href={link.path}>
+            <span className="sr-only">{link.label}</span>
+            {link.icon}
+          </Link>
+        </div>
       ))}
       {session && (
         <div className="sm:absolute bottom-3">
           <UserDropdown user={session.user} />
         </div>
       )}
-    </ul>
+    </div>
   );
 };
 

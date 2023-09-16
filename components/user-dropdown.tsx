@@ -24,7 +24,10 @@ const UserDropdown: React.FC<IProps> = ({ user }) => {
     <DropdownMenu>
       <DropdownMenuTrigger className="!outline-none">
         <Avatar>
-          <AvatarImage src={user?.image as string} />
+          <AvatarImage
+            src={user?.image as string}
+            alt={(user.name as string) || "Profile image"}
+          />
           <AvatarFallback>{formatedName(user?.name as string)}</AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
