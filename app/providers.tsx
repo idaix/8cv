@@ -7,6 +7,7 @@ import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import { useAuthModal } from "@/hooks/use-auth-modal";
 import { toast } from "@/components/ui/use-toast";
+import SearchModal from "@/components/modals/search-modal";
 const Providers = ({ children }: { children: React.ReactNode }) => {
   const searchParams = useSearchParams();
   const event = searchParams.get("event");
@@ -29,6 +30,7 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
       <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
         <Toaster />
         <AuthModal />
+        <SearchModal />
         {children}
       </ThemeProvider>
     </SessionProvider>

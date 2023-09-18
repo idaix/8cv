@@ -1,12 +1,12 @@
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { SearchIcon, FlameIcon, SendIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import UserDropdown from "./user-dropdown";
 import { useSession } from "next-auth/react";
 import GoBack from "./go-back";
+import { useSearchModal } from "@/hooks/use-search-modal";
 const SidebarNav = () => {
-  const router = useRouter();
   const pathname = usePathname();
   const { data: session } = useSession();
 
@@ -18,25 +18,21 @@ const SidebarNav = () => {
     icon: React.ReactNode;
   };
 
+  const searchModal = useSearchModal();
   const navLinks: NavLinks[] = [
     {
       label: "Feed",
       path: "/feed",
       active: pathname === "/feed",
+      onClick: () => null,
       icon: <FlameIcon className="h-6 w-6" />,
     },
     {
       label: "Search",
-      path: "#search",
-      onClick: () => router.push("#search"),
-      active: pathname === "/#search",
+      path: "#",
+      onClick: searchModal.onOpen,
+      active: pathname === "#q",
       icon: <SearchIcon className="h-6 w-6" />,
-    },
-    {
-      label: "Replies",
-      path: "/replies",
-      active: pathname === "/replies",
-      icon: <SendIcon className="h-6 w-6" />,
     },
   ];
   return (
@@ -69,6 +65,7 @@ const SidebarNav = () => {
             "text-muted-foreground hover:text-primary cursor-pointer sm:w-full flex justify-center transition-all",
             link.active && "text-primary"
           )}
+          onClick={link.onClick}
         >
           <Link href={link.path}>
             <span className="sr-only">{link.label}</span>
