@@ -10,11 +10,40 @@ import { useRouter } from "next/navigation";
 import SearchField from "./components/search-field";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { formatedName } from "@/lib/utils";
+import { useEffect, useState } from "react";
+import { getProfilesSearch } from "@/lib/get-profiles-search";
+import { Profile } from "@prisma/client";
 
 const SearchModal = () => {
   const searchModal = useSearchModal();
   const { data: session, status } = useSession();
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
+  const [ViewedProfiles, setViewedProfiles] = useState<Profile[]>([]);
+  const [newProfiles, setnewProfiles] = useState<Profile[]>([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      const viewedProfilesFetcher: Promise<Profile[]> = getProfilesSearch(
+        "",
+        "desc",
+        "6"
+      );
+      const newProfilesFetcher: Promise<Profile[]> = getProfilesSearch(
+        "",
+        "desc",
+        "6"
+      );
+      const [viewedProfilesData, newProfilesData] = await Promise.all([
+        viewedProfilesFetcher,
+        newProfilesFetcher,
+      ]).finally(() => setLoading(false));
+      setnewProfiles(newProfilesData);
+      setViewedProfiles(viewedProfilesData);
+    };
+
+    fetchData();
+  }, []);
   return (
     <Modal isOpen={searchModal.isOpen} onClose={searchModal.onClose}>
       <div className="h-[50vh] flex flex-col gap-y-5">
@@ -52,9 +81,9 @@ const SearchModal = () => {
             </Button>
           )}
           {/* suggestions - recently viewed */}
-          <SearchField label="Recently viewed" data={[]} />
+          <SearchField label="Recently viewed" data={ViewedProfiles} />
           {/* suggestions - recently joind */}
-          <SearchField label="Recently joind" data={[]} />
+          <SearchField label="Recently joind" data={newProfiles} />
         </div>
       </div>
     </Modal>

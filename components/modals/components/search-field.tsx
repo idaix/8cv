@@ -8,11 +8,12 @@ import { Profile } from "@prisma/client";
 
 interface IProps {
   label: string;
-  data: any[];
+  data: Profile[];
 }
 
 const SearchField: React.FC<IProps> = ({ label, data }) => {
   const searchModal = useSearchModal();
+  if (!data.length) return null;
   return (
     <div className="">
       {/* --- label --- */}
@@ -21,32 +22,25 @@ const SearchField: React.FC<IProps> = ({ label, data }) => {
       </span>
       {/* --- data --- */}
       <div className="space-y-1">
-        <Button
-          onClick={() => {
-            searchModal.onClose();
-          }}
-          variant="ghost"
-          className="w-full justify-start gap-x-3"
-        >
-          <Avatar>
-            <AvatarImage src={""} alt={"Profile image"} />
-            <AvatarFallback>{formatedName("Slimane Sed")}</AvatarFallback>
-          </Avatar>
-          Slimane Sedrati
-        </Button>
-        <Button
-          onClick={() => {
-            searchModal.onClose();
-          }}
-          variant="ghost"
-          className="w-full justify-start gap-x-3"
-        >
-          <Avatar className="">
-            <AvatarImage src={""} alt={"Profile image"} />
-            <AvatarFallback>{formatedName("Yacine D")}</AvatarFallback>
-          </Avatar>
-          Yacine Doued
-        </Button>
+        {data.map((item) => (
+          <Button
+            key={item.id}
+            onClick={() => {
+              searchModal.onClose();
+            }}
+            variant="ghost"
+            className="w-full justify-start gap-x-3"
+          >
+            <Avatar>
+              <AvatarImage
+                src={item.image as string}
+                alt={item.name + " Profile image"}
+              />
+              <AvatarFallback>{formatedName("Slimane Sed")}</AvatarFallback>
+            </Avatar>
+            {item.name}
+          </Button>
+        ))}
       </div>
     </div>
   );
