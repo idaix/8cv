@@ -1,7 +1,7 @@
 import prismadb from "@/lib/prismadb";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
-export const GET = async (request: NextRequest) => {
+export async function GET(request: Request) {
   try {
     const url = new URL(request.url);
     const q = url.searchParams.get("q");
@@ -32,5 +32,6 @@ export const GET = async (request: NextRequest) => {
     return NextResponse.json(profiles);
   } catch (error) {
     console.error("SEARCH_ERROR", error);
+    return new NextResponse("Something went wrong", { status: 400 });
   }
-};
+}
