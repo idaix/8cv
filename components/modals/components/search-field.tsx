@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { useSearchModal } from "@/hooks/use-search-modal";
 import { formatedName } from "@/lib/utils";
 import { Profile } from "@prisma/client";
+import { useRouter } from "next/navigation";
 
 interface IProps {
   label: string;
@@ -12,6 +13,7 @@ interface IProps {
 }
 
 const SearchField: React.FC<IProps> = ({ label, data }) => {
+  const router = useRouter();
   const searchModal = useSearchModal();
   if (!data.length) return null;
   return (
@@ -27,6 +29,7 @@ const SearchField: React.FC<IProps> = ({ label, data }) => {
             key={item.id}
             onClick={() => {
               searchModal.onClose();
+              router.push(`/${item.username}`);
             }}
             variant="ghost"
             className="w-full justify-start gap-x-3"

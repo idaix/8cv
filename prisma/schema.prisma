@@ -77,8 +77,24 @@ model Profile {
   userId    String  @db.ObjectId @unique
   user      User  @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  projects  Project[]
-  links     Contact[]
+  projects        Project[]
+  links           Contact[]
+  
+  visitors        ProfileViwes[]  @relation("VisitorProfile")
+  visitedProfiles ProfileViwes[]  @relation("OwnerProfile")
+}
+
+model ProfileViwes {
+  id          String                @id @default(auto()) @map("_id")@db.ObjectId
+  // who visited the profile 
+  visitor     String  
+  Visitor     Profile @relation("VisitorProfile", fields: [visitor], references: [username], onDelete: Cascade)
+  // the owner of the wisited profile
+  owner       String  
+  Owner       Profile @relation("OwnerProfile", fields: [owner], references: [username], onDelete: Cascade)
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
 }
 

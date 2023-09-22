@@ -11,7 +11,10 @@ import SearchField from "./components/search-field";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { formatedName } from "@/lib/utils";
 import { useEffect, useState } from "react";
-import { getProfilesSearch } from "@/lib/get-profiles-search";
+import {
+  getProfilesSearch,
+  getRecentlyViewed,
+} from "@/lib/get-profiles-search";
 import { Profile } from "@prisma/client";
 
 const SearchModal = () => {
@@ -19,15 +22,17 @@ const SearchModal = () => {
   const { data: session, status } = useSession();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const [ViewedProfiles, setViewedProfiles] = useState<Profile[]>([]);
+  const [viewedProfiles, setViewedProfiles] = useState<Profile[]>([]);
   const [newProfiles, setnewProfiles] = useState<Profile[]>([]);
+
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
-      const viewedProfilesFetcher: Promise<Profile[]> = getProfilesSearch(
-        "",
-        "desc",
-        "6"
+
+      const username = session?.user.username;
+
+      const viewedProfilesFetcher: Promise<Profile[]> = getRecentlyViewed(
+        username as string
       );
       const newProfilesFetcher: Promise<Profile[]> = getProfilesSearch(
         "",
@@ -43,7 +48,7 @@ const SearchModal = () => {
     };
 
     fetchData();
-  }, []);
+  }, [session]);
   return (
     <Modal isOpen={searchModal.isOpen} onClose={searchModal.onClose}>
       <div className="h-[50vh] flex flex-col gap-y-5">
@@ -81,7 +86,7 @@ const SearchModal = () => {
             </Button>
           )}
           {/* suggestions - recently viewed */}
-          <SearchField label="Recently viewed" data={ViewedProfiles} />
+          <SearchField label="Recently viewed" data={viewedProfiles} />
           {/* suggestions - recently joind */}
           <SearchField label="Recently joind" data={newProfiles} />
         </div>

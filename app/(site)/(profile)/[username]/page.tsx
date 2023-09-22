@@ -8,6 +8,8 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import ProfileModal from "@/components/modals/edit-profile-modal";
 import { CircleOffIcon } from "lucide-react";
+import getCurrentUser from "@/app/api/actions/getCurrentUser";
+import { toast } from "@/components/ui/use-toast";
 
 export async function generateMetadata({
   params,
@@ -42,6 +44,10 @@ export async function generateMetadata({
 }
 
 const MyProfile = async ({ params }: { params: { username: string } }) => {
+  // how it works?
+  // first, we fetch the profiles [get the visited Profile & the visitor Profile]
+  // then, we'll create a relation between the visitor and the owner of this profile
+
   const profile = await prismadb.profile.findUnique({
     where: {
       username: params.username,
@@ -59,6 +65,36 @@ const MyProfile = async ({ params }: { params: { username: string } }) => {
 
   if (!profile) {
     notFound();
+  }
+
+  const currentUser = await getCurrentUser();
+  if (currentUser?.id) {
+    const currentProfile = await prismadb.profile.findUnique({
+      where: {
+        userId: currentUser.id,
+      },
+    });
+    if (
+      currentProfile?.username &&
+      currentProfile?.username !== profile.username
+    ) {
+      try {
+        const pv = await prismadb.profileViwes.create({
+          data: {
+            visitor: currentProfile.username,
+            owner: profile.username,
+          },
+        });
+
+        if (pv.id) {
+          toast({
+            title: "PV created <3",
+          });
+        }
+      } catch (error) {
+        console.log("error whene creating pv", error);
+      }
+    }
   }
 
   let hasContent: boolean = false;
