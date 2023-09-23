@@ -8,7 +8,7 @@ import { Profile } from "@prisma/client";
 import { useRouter } from "next/navigation";
 
 interface IProps {
-  label: string;
+  label?: string;
   data: Profile[];
 }
 
@@ -19,9 +19,11 @@ const SearchField: React.FC<IProps> = ({ label, data }) => {
   return (
     <div className="">
       {/* --- label --- */}
-      <span className="pl-4 text-xs text-muted-foreground font-semibold">
-        {label}
-      </span>
+      {label && (
+        <span className="pl-4 text-xs text-muted-foreground font-semibold">
+          {label}
+        </span>
+      )}
       {/* --- data --- */}
       <div className="space-y-1">
         {data.map((item) => (
