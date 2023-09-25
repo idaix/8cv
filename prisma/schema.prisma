@@ -79,6 +79,7 @@ model Profile {
 
   projects        Project[]
   links           Contact[]
+  education       Education[]
   
   visitors        ProfileViwes[]  @relation("VisitorProfile")
   visitedProfiles ProfileViwes[]  @relation("OwnerProfile")
@@ -114,18 +115,6 @@ model Project {
   updatedAt   DateTime @updatedAt
 }
 
-model Contact {
-  id          String                @id @default(auto()) @map("_id")@db.ObjectId
-  type        String
-  link        String
-
-  profileId   String
-  profile     Profile @relation(fields: [profileId], references: [username], onDelete: Cascade)
-
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-}
-
 model ProjectImage {
   id          String                @id @default(auto()) @map("_id")@db.ObjectId
   url         String
@@ -138,3 +127,30 @@ model ProjectImage {
 
 }
 
+model Contact {
+  id          String                @id @default(auto()) @map("_id")@db.ObjectId
+  type        String
+  link        String
+
+  profileId   String
+  profile     Profile @relation(fields: [profileId], references: [username], onDelete: Cascade)
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Education {
+  id          String                @id @default(auto()) @map("_id")@db.ObjectId
+  fromYear    Int
+  toYear      Int
+  title       String?
+  university  String?
+  location    String?
+  description String?
+
+  profileId   String
+  profile     Profile @relation(fields: [profileId], references: [username], onDelete: Cascade)
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}

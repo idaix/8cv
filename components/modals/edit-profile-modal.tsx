@@ -9,6 +9,7 @@ import Projects from "./partials/profile-projects";
 import Contact from "./partials/profile-contact";
 import {
   Contact as ContactType,
+  Education as EducationType,
   Profile,
   Project,
   ProjectImage,
@@ -17,6 +18,7 @@ import React, { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
 import { ChevronLeft } from "lucide-react";
+import Education from "./partials/profile-education";
 
 type Tab = {
   id: string;
@@ -30,9 +32,15 @@ type ProfileProps = {
     images: ProjectImage[];
   })[];
   links: ContactType[];
+  education: EducationType[];
 };
 
-const ProfileModal = ({ general, projects, links }: ProfileProps) => {
+const ProfileModal = ({
+  general,
+  projects,
+  links,
+  education,
+}: ProfileProps) => {
   const profileModal = useProfileModal();
   const [mobileTabOpen, setMobileTabOpen] = useState(false);
 
@@ -46,6 +54,11 @@ const ProfileModal = ({ general, projects, links }: ProfileProps) => {
       id: "projects",
       label: "Projects",
       content: <Projects initialData={projects} />,
+    },
+    {
+      id: "education",
+      label: "Education",
+      content: <Education initialData={education} />,
     },
     {
       id: "contact",

@@ -10,7 +10,11 @@ import ProfileModal from "@/components/modals/edit-profile-modal";
 import { CircleOffIcon } from "lucide-react";
 import getCurrentUser from "@/app/api/actions/getCurrentUser";
 import { toast } from "@/components/ui/use-toast";
+import Education from "./components/education";
 
+// --- dynamic metadata ---
+// --- Profile exist => show name ---
+// --- Profile !exist => show not found message ---
 export async function generateMetadata({
   params,
 }: {
@@ -60,6 +64,7 @@ const MyProfile = async ({ params }: { params: { username: string } }) => {
         },
       },
       links: true,
+      education: true,
     },
   });
 
@@ -112,6 +117,7 @@ const MyProfile = async ({ params }: { params: { username: string } }) => {
         general={profile}
         projects={profile.projects}
         links={profile.links}
+        education={profile.education}
       />
       <div
         className="
@@ -131,6 +137,11 @@ const MyProfile = async ({ params }: { params: { username: string } }) => {
               {profile.projects.length > 0 && (
                 <Section title="Projects">
                   <Projects projects={profile.projects} />
+                </Section>
+              )}
+              {profile.education.length > 0 && (
+                <Section title="Education">
+                  <Education data={profile.education} />
                 </Section>
               )}
               {profile.links.length > 0 && (
