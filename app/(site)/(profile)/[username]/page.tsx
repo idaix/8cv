@@ -11,6 +11,7 @@ import { CircleOffIcon } from "lucide-react";
 import getCurrentUser from "@/app/api/actions/getCurrentUser";
 import { toast } from "@/components/ui/use-toast";
 import Education from "./components/education";
+import Experience from "./components/experience";
 
 // --- dynamic metadata ---
 // --- Profile exist => show name ---
@@ -65,6 +66,7 @@ const MyProfile = async ({ params }: { params: { username: string } }) => {
       },
       links: true,
       education: true,
+      experience: true,
     },
   });
 
@@ -118,6 +120,7 @@ const MyProfile = async ({ params }: { params: { username: string } }) => {
         projects={profile.projects}
         links={profile.links}
         education={profile.education}
+        experience={profile.experience}
       />
       <div
         className="
@@ -142,6 +145,11 @@ const MyProfile = async ({ params }: { params: { username: string } }) => {
               {profile.education.length > 0 && (
                 <Section title="Education">
                   <Education data={profile.education} />
+                </Section>
+              )}
+              {profile.experience.length > 0 && (
+                <Section title="Experience">
+                  <Experience data={profile.experience} />
                 </Section>
               )}
               {profile.links.length > 0 && (

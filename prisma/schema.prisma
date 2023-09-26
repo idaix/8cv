@@ -80,6 +80,7 @@ model Profile {
   projects        Project[]
   links           Contact[]
   education       Education[]
+  experience      Experience[]
   
   visitors        ProfileViwes[]  @relation("VisitorProfile")
   visitedProfiles ProfileViwes[]  @relation("OwnerProfile")
@@ -145,6 +146,22 @@ model Education {
   toYear      Int
   title       String?
   university  String?
+  location    String?
+  description String?
+
+  profileId   String
+  profile     Profile @relation(fields: [profileId], references: [username], onDelete: Cascade)
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Experience {
+  id          String                @id @default(auto()) @map("_id")@db.ObjectId
+  fromYear    Int
+  toYear      Int
+  title       String?
+  company     String?
   location    String?
   description String?
 
