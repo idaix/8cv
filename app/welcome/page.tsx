@@ -17,7 +17,10 @@ const WelcomePage = () => {
   const router = useRouter();
   const { data: session, status } = useSession();
   const [steps, setSteps] = useState(STEPS.WELCOME);
-
+  // the process of cheking if profile exist or not take some time
+  // soo we create a state for managing content
+  // based on this state (boolean) if false => wont show the content, true => show the content
+  const [showContent, setShowContent] = useState(false);
   useEffect(() => {
     if (status === "unauthenticated") {
       router.push("/?event=openModal");
@@ -27,6 +30,8 @@ const WelcomePage = () => {
         const res = await axios.get("api/profile/check-profile-with-userid");
         if (res.data.username) {
           router.push(`/${res.data.username}`);
+        } else {
+          setShowContent(true);
         }
       };
 
@@ -34,6 +39,9 @@ const WelcomePage = () => {
     }
   }, [status, router]);
 
+  if (!showContent) return <div></div>;
+
+  // --- content ---
   const nextStep = () => {
     setSteps((value) => value + 1);
   };
