@@ -14,14 +14,19 @@ export async function GET(request: Request) {
           {
             name: {
               contains: q ?? "",
+              mode: "insensitive",
             },
           },
           {
             username: {
               contains: q ?? "",
+              mode: "insensitive",
             },
           },
         ],
+        NOT: {
+          username: "x",
+        },
       },
       orderBy: {
         createdAt: order === "asc" ? "asc" : "desc",
