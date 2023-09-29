@@ -2,6 +2,10 @@ import prismadb from "@/lib/prismadb";
 import { NextResponse } from "next/server";
 import getCurrentUser from "../../actions/getCurrentUser";
 
+// emm soo the logic is to retrieve recently joind in the last 7 days
+const sevenDaysAgo = new Date();
+sevenDaysAgo.setDate(new Date().getDate() - 6); // minus one day because we want to include today's date too,
+
 export async function GET(request: Request) {
   try {
     const url = new URL(request.url);
@@ -21,6 +25,9 @@ export async function GET(request: Request) {
           NOT: {
             username: currentProfile?.username ?? "",
           },
+          createdAt: {
+            gte: sevenDaysAgo,
+          },
         },
         orderBy: {
           createdAt: "desc",
@@ -30,6 +37,9 @@ export async function GET(request: Request) {
       return NextResponse.json(profiles);
     } else {
       const profiles = await prismadb.profile.findMany({
+        where: {
+          createdAt: sevenDaysAgo,
+        },
         orderBy: {
           createdAt: "desc",
         },
