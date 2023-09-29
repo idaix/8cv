@@ -24,9 +24,6 @@ export async function GET(request: Request) {
             },
           },
         ],
-        NOT: {
-          username: "x",
-        },
       },
       orderBy: {
         createdAt: order === "asc" ? "asc" : "desc",

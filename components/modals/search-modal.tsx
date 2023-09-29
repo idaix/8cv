@@ -13,6 +13,7 @@ import { formatedName } from "@/lib/utils";
 import { Suspense, useEffect, useState } from "react";
 import {
   getProfilesSearch,
+  getRecentlyJoindProfilesWithoutCurrentUser,
   getRecentlyViewed,
 } from "@/lib/get-profiles-search";
 import { Profile } from "@prisma/client";
@@ -42,11 +43,8 @@ const SearchModal = () => {
       const viewedProfilesFetcher: Promise<Profile[]> = getRecentlyViewed(
         username as string
       );
-      const newProfilesFetcher: Promise<Profile[]> = getProfilesSearch(
-        "",
-        "desc",
-        "6"
-      );
+      const newProfilesFetcher: Promise<Profile[]> =
+        getRecentlyJoindProfilesWithoutCurrentUser("6");
       const [viewedProfilesData, newProfilesData] = await Promise.all([
         viewedProfilesFetcher,
         newProfilesFetcher,

@@ -8,7 +8,19 @@ export const getProfilesSearch = async (
 ) => {
   try {
     const res = await axios.get(
-      `api/search?q=${q??""}&order=${order??""}&limit=${limit??""}`
+      `api/search?q=${q ?? ""}&order=${order ?? ""}&limit=${limit ?? ""}`
+    );
+    return res.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+export const getRecentlyJoindProfilesWithoutCurrentUser = async (
+  limit?: string
+) => {
+  try {
+    const res = await axios.get(
+      `api/search/recently-joined?limit=${limit ?? ""}`
     );
     return res.data;
   } catch (error) {
