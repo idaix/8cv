@@ -15,7 +15,7 @@ interface IProps {
 const SearchField: React.FC<IProps> = ({ label, data }) => {
   const router = useRouter();
   const searchModal = useSearchModal();
-  if (!data.length) return null;
+  if (!data?.length) return null;
   return (
     <div className="">
       {/* --- label --- */}
