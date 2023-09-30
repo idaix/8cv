@@ -19,6 +19,8 @@ import axios, { AxiosError } from "axios";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
+import { motion } from "framer-motion";
+
 const formSchema = z.object({
   username: z
     .string()
@@ -110,42 +112,77 @@ const WelcomeForm = () => {
   return (
     <Form {...form}>
       <form className="grid gap-y-3" onSubmit={form.handleSubmit(onSubmit)}>
-        <FormField
-          control={form.control}
-          name="username"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Username</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder="username"
-                  value={field.value}
-                  onChange={(e) => handleUsernameOnChange(e, field.onChange)}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          name="displayName"
-          control={form.control}
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Display name</FormLabel>
-              <FormControl>
-                <Input placeholder="Name" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <div className="mt-2 text-end">
+        <motion.div
+          initial={{
+            x: 100,
+            opacity: 0,
+          }}
+          animate={{
+            x: 0,
+            opacity: 1,
+          }}
+          transition={{ ease: "easeOut", delay: 0 }}
+        >
+          <FormField
+            control={form.control}
+            name="username"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Username</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="username"
+                    value={field.value}
+                    onChange={(e) => handleUsernameOnChange(e, field.onChange)}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </motion.div>
+        <motion.div
+          initial={{
+            x: 100,
+            opacity: 0,
+          }}
+          animate={{
+            x: 0,
+            opacity: 1,
+          }}
+          transition={{ ease: "easeOut", delay: 0.1 }}
+        >
+          <FormField
+            name="displayName"
+            control={form.control}
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Display name</FormLabel>
+                <FormControl>
+                  <Input placeholder="Name" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </motion.div>
+        <motion.div
+          initial={{
+            y: 50,
+            opacity: 0,
+          }}
+          animate={{
+            y: 0,
+            opacity: 1,
+          }}
+          transition={{ ease: "easeOut", delay: 0.15 }}
+          className="mt-2 text-end"
+        >
           <Button disabled={loading} type="submit" variant={"default"}>
             Continue
             <ChevronRight className="h-4 w-4 ml-2" />
           </Button>
-        </div>
+        </motion.div>
       </form>
     </Form>
   );

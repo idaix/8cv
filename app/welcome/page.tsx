@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import WelcomeForm from "./components/form";
 import axios from "axios";
-
+import { motion } from "framer-motion";
 enum STEPS {
   WELCOME = 0,
   FORM = 1,
@@ -48,25 +48,58 @@ const WelcomePage = () => {
 
   let bodyContent = (
     <>
-      <h1 className="text-4xl font-bold">
+      <motion.h1
+        initial={{
+          x: -100,
+          opacity: 0,
+        }}
+        animate={{
+          x: 0,
+          opacity: 1,
+        }}
+        transition={{ ease: "easeOut", delay: 0 }}
+        className="text-4xl font-bold"
+      >
         Welcome,{" "}
         <span className="bg-clip-text bg-gradient-to-tr from-green-400 to-violet-600 text-transparent">
           Brilliant
         </span>
-      </h1>
+      </motion.h1>
 
-      <h1 className="text-4xl font-bold">
+      <motion.h1
+        initial={{
+          x: -100,
+          opacity: 0,
+        }}
+        animate={{
+          x: 0,
+          opacity: 1,
+        }}
+        transition={{ ease: "easeOut", delay: 0.1 }}
+        className="text-4xl font-bold"
+      >
         Lets create your{" "}
         <span className="bg-clip-text bg-gradient-to-tr from-green-400 to-violet-600 text-transparent">
           Profile
         </span>
-      </h1>
-      <div className="mt-5 text-end">
+      </motion.h1>
+      <motion.div
+        initial={{
+          y: 50,
+          opacity: 0,
+        }}
+        animate={{
+          y: 0,
+          opacity: 1,
+        }}
+        transition={{ ease: "easeOut", delay: 0.15 }}
+        className="mt-5 text-end"
+      >
         <Button onClick={nextStep} variant={"outline"}>
           Continue
           <ChevronRight className="h-4 w-4 ml-2" />
         </Button>
-      </div>
+      </motion.div>
     </>
   );
 
