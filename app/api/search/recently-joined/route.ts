@@ -22,11 +22,11 @@ export async function GET(request: Request) {
       });
       const profiles = await prismadb.profile.findMany({
         where: {
-          NOT: {
-            username: currentProfile?.username ?? "",
-          },
           createdAt: {
             gte: sevenDaysAgo,
+          },
+          NOT: {
+            username: currentProfile?.username ?? "",
           },
         },
         orderBy: {
@@ -38,7 +38,9 @@ export async function GET(request: Request) {
     } else {
       const profiles = await prismadb.profile.findMany({
         where: {
-          createdAt: sevenDaysAgo,
+          createdAt: {
+            gte: sevenDaysAgo,
+          },
         },
         orderBy: {
           createdAt: "desc",
