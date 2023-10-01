@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import WelcomeForm from "./components/form";
 import axios from "axios";
 import { motion } from "framer-motion";
+import { useAuthModal } from "@/hooks/use-auth-modal";
 enum STEPS {
   WELCOME = 0,
   FORM = 1,
@@ -16,19 +17,19 @@ enum STEPS {
 const WelcomePage = () => {
   const router = useRouter();
   const { data: session, status } = useSession();
+  const authModal = useAuthModal();
+
   const [steps, setSteps] = useState(STEPS.WELCOME);
   // the process of cheking if profile exist or not take some time
   // soo we create a state for managing content
   // based on this state (boolean) if false => wont show the content, true => show the content
   const [showContent, setShowContent] = useState(false);
   useEffect(() => {
-    if (status === "unauthenticated") {
-      router.push("/?event=openModal");
-    } else if (status === "authenticated") {
+    if (status === "authenticated") {
       // check if profile already created with authenticated user by his id
       const checkProfile = async () => {
         const res = await axios.get("api/profile/check-profile-with-userid");
-        if (res.data.username) {
+        if (res.data?.username) {
           router.push(`/${res.data.username}`);
         } else {
           setShowContent(true);
@@ -36,6 +37,11 @@ const WelcomePage = () => {
       };
 
       checkProfile();
+    }
+
+    if (status === "unauthenticated") {
+      router.push("/feed");
+      authModal.onOpen("LOGIN");
     }
   }, [status, router]);
 

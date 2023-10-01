@@ -53,9 +53,9 @@ export const authOptions: AuthOptions = {
     strategy: "jwt",
   },
   pages: {
-    signIn: "/?event=openModal",
+    signIn: "/feed?event=openModal",
     signOut: "/",
-    error: "/?event=openModal&error=true",
+    error: "/feed?event=openModal&error=true",
     newUser: "/welcome",
   },
   secret: process.env.NEXTAUTH_SECRET,
