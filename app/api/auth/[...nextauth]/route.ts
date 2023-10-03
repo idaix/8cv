@@ -15,7 +15,6 @@ export const authOptions: AuthOptions = {
       if (trigger === "update" && session?.username) {
         token.username = session.username;
       }
-
       if (user) {
         // fetch real user from the database based on user.id
         const profile = await prismadb.profile.findUnique({
@@ -26,6 +25,7 @@ export const authOptions: AuthOptions = {
             image: true,
           },
         });
+        token.isWithProfile = !!profile?.username;
         return {
           ...token,
           id: user.id,
