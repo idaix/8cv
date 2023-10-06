@@ -8,6 +8,7 @@ import { useEffect } from "react";
 import { useAuthModal } from "@/hooks/use-auth-modal";
 import { toast } from "@/components/ui/use-toast";
 import SearchModal from "@/components/modals/search-modal";
+import JobModal from "@/components/modals/job-modal";
 const Providers = ({ children }: { children: React.ReactNode }) => {
   const searchParams = useSearchParams();
   const event = searchParams.get("event");
@@ -31,6 +32,7 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
         <Toaster />
         <AuthModal />
         <SearchModal />
+        <JobModal />
         {children}
       </ThemeProvider>
     </SessionProvider>

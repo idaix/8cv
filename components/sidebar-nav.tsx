@@ -1,5 +1,5 @@
 import { usePathname } from "next/navigation";
-import { SearchIcon, FlameIcon, SendIcon } from "lucide-react";
+import { SearchIcon, FlameIcon, SendIcon, Briefcase } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import UserDropdown from "./user-dropdown";
@@ -26,6 +26,13 @@ const SidebarNav = () => {
       active: pathname === "/feed",
       onClick: () => null,
       icon: <FlameIcon className="h-6 w-6" />,
+    },
+    {
+      label: "Jobs",
+      path: "/jobs",
+      onClick: () => null,
+      active: pathname === "/jobs",
+      icon: <Briefcase className="h-6 w-6" />,
     },
     {
       label: "Search",

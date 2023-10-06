@@ -19,14 +19,8 @@ export async function POST(
       location,
       keywords,
     } = body;
-    if (
-      !params.username ||
-      !companyName ||
-      companyURL ||
-      companyLogo ||
-      jobTitle
-    ) {
-      return new NextResponse("Missing fields id are required!", {
+    if (!params.username || !companyName || !companyURL || !jobTitle) {
+      return new NextResponse("Required fields are missing!", {
         status: 400,
       });
     }
