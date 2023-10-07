@@ -4,8 +4,6 @@
 
 > **Warning**
 > This project is still in development and is not ready for production use.
->
-> It uses new technologies (server actions, drizzle ORM) which are subject to change and may break your application.
 
 ## Tech Stack
 
