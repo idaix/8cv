@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button";
 import { Job } from "@prisma/client";
 import { MoveUpRightIcon } from "lucide-react";
 import Link from "next/link";
@@ -9,41 +8,32 @@ interface JobParams {
 
 const JobCard: React.FC<JobParams> = ({ data }) => {
   return (
-    <div className="text-sm grid grid-cols-12 sm:gap-x-5 md:gap-x-10">
+    <div className="text-sm grid grid-cols-12 sm:gap-x-5 md:gap-x-10 border-b pb-2">
       <div className="col-span-12 sm:col-span-2 text-muted-foreground">
         {data.createdAt.toDateString()}
       </div>
       <div className="col-span-12 sm:col-span-7">
         <div className="flex items-center justify-between gap-x-2">
-          {/* title */}
-          {data.link ? (
-            <Link
-              href={data.link}
-              target="_blank"
-              className="flex items-center hover:underline"
-            >
-              {data.jobTitle}
-              <MoveUpRightIcon className="h-3 w-3" />
-            </Link>
-          ) : (
-            <p>{data.jobTitle}</p>
-          )}
-          {/* action button */}
-          <Link href={data.link} target="_blank">
-            Apply
+          <Link
+            href={data.link}
+            target="_blank"
+            className="flex items-center hover:underline"
+          >
+            Allpy for {'"' + data.jobTitle + '"'}
+            <MoveUpRightIcon className="h-3 w-3" />
           </Link>
         </div>
         <p className="whitespace-pre-line text-muted-foreground mt-1 text-sm text-justify">
           {data.description}
         </p>
       </div>
-      <div className="col-span-12 sm:col-span-3 mt-5 sm:mt-0">
-        <div className=" mb-2">
-          <span className="text-muted-foreground">Type</span>
+      <div className="col-span-12 sm:col-span-3 mt-5 sm:mt-0 space-y-2">
+        <div className="leading-none">
+          <span className="text-muted-foreground text-xs">Type</span>
           <p>Intership</p>
         </div>
-        <div className=" mb-2">
-          <span className="text-muted-foreground">Location</span>
+        <div className="leading-none">
+          <span className="text-muted-foreground text-xs">Location</span>
           <p>Remote</p>
         </div>
       </div>

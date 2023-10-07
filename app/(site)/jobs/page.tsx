@@ -14,9 +14,11 @@ const WorkPage = async () => {
     <main>
       <Navbar />
       <div className="p-5">
-        {data.map((item) => (
-          <JobCard data={item} key={item.id} />
-        ))}
+        <div className="grid gap-y-5">
+          {data.map((item) => (
+            <JobCard data={item} key={item.id} />
+          ))}
+        </div>
       </div>
     </main>
   );
