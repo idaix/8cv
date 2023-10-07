@@ -2,6 +2,8 @@ import prismadb from "@/lib/prismadb";
 import Navbar from "./components/navbar";
 import JobCard from "./components/job-card";
 
+export const revalidate = 3600;
+
 const WorkPage = async () => {
   // gonna fetch data directly here
   const data = await prismadb.job.findMany({

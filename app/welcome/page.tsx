@@ -66,9 +66,9 @@ const WelcomePage = () => {
         transition={{ ease: "easeOut", delay: 0 }}
         className="text-4xl font-bold"
       >
-        Welcome,{" "}
+        Welcome to{" "}
         <span className="bg-clip-text bg-gradient-to-tr from-green-400 to-violet-600 text-transparent">
-          Brilliant
+          8cv
         </span>
       </motion.h1>
 

@@ -8,8 +8,9 @@ const gfont = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "Talents",
-  description: "Share your talent",
+  title: "Infinite CV",
+  description:
+    "8cv or Infinite CV is the ideal platform to build your portfolio, share your projects, and provide your links and CV. It offers a seamless way to showcase your skills and connect with potential opportunities.",
   icons: {
     icon: "/icon.png",
   },

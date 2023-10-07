@@ -12,16 +12,17 @@ const FirstCard = () => {
   return (
     <Card className="overflow-hidden mb-4 bg-muted">
       <CardContent className="pt-6 pb-3">
-        <p className="text-xs text-muted-foreground mb-1">About Talents app</p>
+        <p className="text-xs text-muted-foreground mb-1">About 8cv</p>
         <p>
-          Talents app is a beautiful space to share your skills, CV, projects,
-          thoughts, blogs links and your talent✨
+          8cv is the ideal platform to build your portfolio, share your
+          projects, and provide your links and CV. It offers a seamless way to
+          showcase your skills and connect with potential opportunities. ✨
         </p>
       </CardContent>
       <CardFooter>
         <Link
           className="w-full"
-          href="https://github.com/daishek/talents"
+          href="https://github.com/daishek/8cv"
           target="_blank"
           rel="noreferrer"
         >
