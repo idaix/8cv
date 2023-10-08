@@ -8,18 +8,8 @@ export async function POST(
 ) {
   try {
     const body = await request.json();
-    const {
-      companyName,
-      companyURL,
-      companyLogo,
-      jobTitle,
-      link,
-      description,
-      type,
-      location,
-      keywords,
-    } = body;
-    if (!params.username || !companyName || !companyURL || !jobTitle) {
+    const { jobTitle, link, description, type, location, keywords } = body;
+    if (!params.username || !jobTitle || !link) {
       return new NextResponse("Required fields are missing!", {
         status: 400,
       });
@@ -46,9 +36,6 @@ export async function POST(
 
     const job = await prismadb.job.create({
       data: {
-        companyLogo,
-        companyName,
-        companyURL,
         jobTitle,
         link,
         description,
@@ -61,7 +48,7 @@ export async function POST(
 
     return NextResponse.json(job);
   } catch (error) {
-    console.log("jJOB_CREATION_ERROR", error);
+    console.log("JOB_CREATION_ERROR", error);
 
     return new NextResponse("Something went wrong");
   }

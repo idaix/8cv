@@ -22,9 +22,6 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 
 const formSchema = z.object({
-  companyName: z.string().min(1).max(100),
-  companyURL: z.string().min(1).max(100),
-  // companyLogo: z.string().min(1).max(100),
   jobTitle: z.string().min(1).max(100),
   link: z
     .string()
@@ -58,8 +55,6 @@ const JobForm: React.FC<IProps> = ({ initialData }) => {
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      companyName: initialData?.companyName ?? "",
-      companyURL: initialData?.companyURL ?? "",
       jobTitle: initialData?.jobTitle ?? "",
       description: initialData?.description ?? "",
       keywords: initialData?.keywords ?? "",
@@ -101,42 +96,6 @@ const JobForm: React.FC<IProps> = ({ initialData }) => {
     <section className=" h-full">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-y-3">
-          <div className="grid grid-cols-2 gap-x-3">
-            <FormField
-              name="companyName"
-              control={form.control}
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Company Name*</FormLabel>
-                  <FormControl>
-                    <Input
-                      disabled={loading}
-                      placeholder="Acme inc."
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              name="companyURL"
-              control={form.control}
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Company URL*</FormLabel>
-                  <FormControl>
-                    <Input
-                      disabled={loading}
-                      placeholder="www.example.com"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
           <FormField
             name="jobTitle"
             control={form.control}

@@ -175,9 +175,10 @@ model Experience {
 
 model Job {
   id          String                @id @default(auto()) @map("_id")@db.ObjectId
-  companyName String
-  companyURL  String
-  companyLogo String? // URL
+  // #edit no need for company details
+  // companyName String?
+  // companyURL  String?
+  // companyLogo String? // URL
   jobTitle    String
   link        String
   description String?
