@@ -28,14 +28,18 @@ const JobCard: React.FC<JobParams> = ({ data }) => {
         </p>
       </div>
       <div className="col-span-12 sm:col-span-3 mt-5 sm:mt-0 space-y-2">
-        <div className="leading-none">
-          <span className="text-muted-foreground text-xs">Type</span>
-          <p>Intership</p>
-        </div>
-        <div className="leading-none">
-          <span className="text-muted-foreground text-xs">Location</span>
-          <p>Remote</p>
-        </div>
+        {data.type && (
+          <div className="leading-none">
+            <span className="text-muted-foreground text-xs">Type</span>
+            <p>{data.type}</p>
+          </div>
+        )}
+        {data.location && (
+          <div className="leading-none">
+            <span className="text-muted-foreground text-xs">Location</span>
+            <p>{data.location}</p>
+          </div>
+        )}
       </div>
     </div>
   );
