@@ -10,6 +10,13 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/components/ui/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -113,23 +120,58 @@ const JobForm: React.FC<IProps> = ({ initialData }) => {
               </FormItem>
             )}
           />
-          <FormField
-            name="keywords"
-            control={form.control}
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>keywords</FormLabel>
-                <FormControl>
-                  <Input
-                    disabled={loading}
-                    placeholder="ReactJs, tailwind CSS"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <div className="grid gap-3 grid-cols-2">
+            <FormField
+              name="type"
+              control={form.control}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Type*</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger disabled={loading}>
+                        <SelectValue placeholder="Select job type" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="full-time">Full time</SelectItem>
+                      <SelectItem value="part-time">Part time</SelectItem>
+                      <SelectItem value="intership">Intership</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              name="location"
+              control={form.control}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Location*</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger disabled={loading}>
+                        <SelectValue placeholder="Select location" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="remote">Remote</SelectItem>
+                      <SelectItem value="onsite">Onsite</SelectItem>
+                      <SelectItem value="hybrid">Hybrid</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
           <FormField
             name="link"
             control={form.control}
@@ -147,8 +189,25 @@ const JobForm: React.FC<IProps> = ({ initialData }) => {
               </FormItem>
             )}
           />
-          {/* select => type */}
+
           {/* select => location */}
+          <FormField
+            name="keywords"
+            control={form.control}
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>keywords</FormLabel>
+                <FormControl>
+                  <Input
+                    disabled={loading}
+                    placeholder="ReactJs, tailwind CSS"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           <FormField
             name="description"
             control={form.control}
