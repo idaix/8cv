@@ -16,7 +16,7 @@ const Experience: React.FC<IProps> = ({ initialData }) => {
   const [form, setForm] = useState(<ExperienceForm />);
   return (
     <div className="h-full">
-      <SectionHeader title="Education" onClick={() => setOpenForm(true)}>
+      <SectionHeader title="Experience" onClick={() => setOpenForm(true)}>
         {openForm ? (
           <>{form}</>
         ) : (
