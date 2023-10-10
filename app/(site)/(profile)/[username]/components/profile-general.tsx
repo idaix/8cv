@@ -17,7 +17,7 @@ const ProfileGeneral: React.FC<ProfileGeneralProps> = ({ profile }) => {
           <div className="relative w-24 h-24 bg-muted rounded-full overflow-hidden">
             <Image src={profile.image as string} alt={profile.name} fill />
           </div>
-          <div className="space-y-1">
+          <div className="flex-1 space-y-1">
             <h5 className="">{profile.name}</h5>
             <p className="text-muted-foreground text-sm">
               {profile.headline && profile.headline}
