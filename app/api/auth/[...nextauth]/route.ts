@@ -14,6 +14,8 @@ export const authOptions: AuthOptions = {
     async jwt({ token, user, session, trigger }) {
       if (trigger === "update" && session?.username) {
         token.username = session.username;
+        token.image = session.image;
+        token.name = session.name;
       }
       if (user) {
         // fetch real user from the database based on user.id

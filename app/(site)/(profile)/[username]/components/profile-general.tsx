@@ -1,8 +1,10 @@
 import { Badge } from "@/components/ui/badge";
 import { Profile } from "@prisma/client";
-import Image from "next/image";
+// import Image from "next/image";
 import Link from "next/link";
 import More from "./more";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { formatedName } from "@/lib/utils";
 
 interface ProfileGeneralProps {
   profile: Profile | null;
@@ -14,9 +16,15 @@ const ProfileGeneral: React.FC<ProfileGeneralProps> = ({ profile }) => {
     <div className="grid gap-y-9">
       <div className="flex items-center">
         <div className="flex-1 flex items-center gap-x-4">
-          <div className="relative w-24 h-24 bg-muted rounded-full overflow-hidden">
-            <Image src={profile.image as string} alt={profile.name} fill />
-          </div>
+          <Avatar className="w-24 h-24">
+            <AvatarImage
+              src={profile?.image as string}
+              alt={(profile.name as string) || "Profile image"}
+            />
+            <AvatarFallback>
+              {formatedName(profile?.name as string)}
+            </AvatarFallback>
+          </Avatar>
           <div className="flex-1 space-y-1">
             <h5 className="">{profile.name}</h5>
             <p className="text-muted-foreground text-sm">

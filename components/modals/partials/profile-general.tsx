@@ -1,5 +1,6 @@
 "use client";
 
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -12,6 +13,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/components/ui/use-toast";
+import { formatedName } from "@/lib/utils";
+import { UploadButton } from "@/utils/uploadthing";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Profile } from "@prisma/client";
 import axios from "axios";
@@ -48,7 +51,7 @@ interface IProps {
 
 const General: React.FC<IProps> = ({ initialData }) => {
   const [loading, setLoading] = useState(false);
-  const { data: session, status } = useSession();
+  const { data: session, status, update } = useSession();
   const router = useRouter();
 
   if (status === "unauthenticated") {
@@ -71,6 +74,12 @@ const General: React.FC<IProps> = ({ initialData }) => {
 
   const onSubmit = async (values: FormSchema) => {
     setLoading(true);
+    // chnage session profile image manualy
+    if (values.imageURL !== initialData?.image) {
+      // that means that the image changed
+      // update session
+      await update({ image: values.imageURL });
+    }
     try {
       await axios.patch(`api/profile/${session?.user.username}`, values);
       toast({
@@ -91,6 +100,46 @@ const General: React.FC<IProps> = ({ initialData }) => {
     <section className=" h-full">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-y-3">
+          <FormField
+            control={form.control}
+            name="imageURL"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <div className="flex items-center gap-x-5">
+                    {/* show the current image */}
+                    <Avatar className="w-20 h-20">
+                      <AvatarImage
+                        src={field.value as string}
+                        alt={(initialData?.name as string) || "Profile image"}
+                      />
+                      <AvatarFallback>
+                        {formatedName(initialData?.name as string)}
+                      </AvatarFallback>
+                    </Avatar>
+                    {/* upload image */}
+                    <UploadButton
+                      endpoint="imageUploader"
+                      onClientUploadComplete={(res) => {
+                        if (res) {
+                          field.onChange(res[0].url);
+                        }
+                      }}
+                      onUploadError={(error: Error) => {
+                        toast({
+                          variant: "destructive",
+                          title: "Upload error",
+                          description: `ERROR! ${error.message}`,
+                        });
+                      }}
+                    />
+                  </div>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
           <FormField
             control={form.control}
             name="username"
