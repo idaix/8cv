@@ -43,6 +43,7 @@ export const authOptions: AuthOptions = {
         ...session,
         user: {
           ...session.user,
+          image: token.image as string,
           id: token.sub,
           username: token.username,
         },
