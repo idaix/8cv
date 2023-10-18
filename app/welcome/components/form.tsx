@@ -75,6 +75,8 @@ const WelcomeForm = () => {
   };
 
   const onSubmit = async (values: FormSchema) => {
+    console.log("click");
+
     try {
       setLoading(true);
       const res = await axios.post("api/profile", values);
@@ -178,7 +180,7 @@ const WelcomeForm = () => {
           transition={{ ease: "easeOut", delay: 0.15 }}
           className="mt-2 text-end"
         >
-          <Button disabled={loading} type="submit" variant={"default"}>
+          <Button disabled={loading} variant={"default"} type="submit">
             Continue
             <ChevronRight className="h-4 w-4 ml-2" />
           </Button>
