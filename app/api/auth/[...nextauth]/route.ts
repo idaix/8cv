@@ -39,13 +39,11 @@ export const authOptions: AuthOptions = {
       return token;
     },
     async session({ session, token, user }) {
-      console.log(token, user);
-
       return {
         ...session,
         user: {
           ...session.user,
-          image: token.image ? (token.image as string) : user.image,
+          image: (token.image as string) ?? session.user.image,
           id: token.sub,
           username: token.username,
         },
