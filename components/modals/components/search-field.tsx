@@ -6,6 +6,7 @@ import { useSearchModal } from "@/hooks/use-search-modal";
 import { formatedName } from "@/lib/utils";
 import { Profile } from "@prisma/client";
 import { useRouter } from "next/navigation";
+import SearchUserCard from "./search-user-card";
 
 interface IProps {
   label?: string;
@@ -27,24 +28,8 @@ const SearchField: React.FC<IProps> = ({ label, data }) => {
       {/* --- data --- */}
       <div className="space-y-1">
         {data.map((item) => (
-          <Button
-            key={item.id}
-            onClick={() => {
-              searchModal.onClose();
-              router.push(`/${item.username}`);
-            }}
-            variant="ghost"
-            className="w-full justify-start gap-x-3"
-          >
-            <Avatar>
-              <AvatarImage
-                src={item.image as string}
-                alt={item.name + " Profile image"}
-              />
-              <AvatarFallback>{formatedName("Slimane Sed")}</AvatarFallback>
-            </Avatar>
-            {item.name}
-          </Button>
+          // <div className="bg-red-100">hello siiir</div>
+          <SearchUserCard key={item.id} user={item} />
         ))}
       </div>
     </div>
